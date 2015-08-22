@@ -41,12 +41,21 @@ namespace Common_Files
             client = new TcpClient();
         }
         
+        /// <summary>
+        /// It changes parametrs
+        /// </summary>
+        /// <param name="ip">IP adress, format xxx.xxx.xxx.xxx</param>
+        /// <param name="port">Int port 0-65355</param>
         public void ChangeParametrs(string ip, int port)
         {
             this.ip = ip;
             this.port = port;
         }
 
+        /// <summary>
+        /// Try to connect
+        /// </summary>
+        /// <returns></returns>
         public bool Connect()
         {
             client = new TcpClient();
@@ -62,7 +71,6 @@ namespace Common_Files
             }
             return true;
         }
-
-
     }
 }
+                                         

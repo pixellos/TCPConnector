@@ -29,20 +29,15 @@ namespace TestSieci
         ServerViewModel serverViewModel;
         public MainWindow()
         {
-           
             InitializeComponent();
             serverViewModel = new ServerViewModel(isConnectedLabel);
-            
-            
             this.Title = "Serwer";
-           
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
             serverViewModel.GetConnectionButtonClick(sender, e);
         }
-
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
