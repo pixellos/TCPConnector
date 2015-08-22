@@ -32,6 +32,7 @@ namespace TestSieciKlient
         {
             InitializeComponent();
             clientViewModel = new ClientViewModel(isConnected,recivedText);
+
         }
         
         private void button_Click(object sender, RoutedEventArgs e)

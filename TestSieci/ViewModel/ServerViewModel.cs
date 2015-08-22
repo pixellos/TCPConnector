@@ -40,32 +40,15 @@ namespace TestSieci.ViewModel
             this.isConnectedLabel = isConnectedLabel;
         }
 
-        /// <summary>
-        /// It Sends text, you should use it into TextChanged event
-        /// </summary>
-        /// <param name="text">Text to send</param>
-        public void SendText_Changed(string text)
-        {
-            if (text != null)
-            {
-                if (text == "")
-                {
-                    text = ":ES"; //:EmptyString
-                }
-                TCPServer.SendText(text);
-            }
-        }
-        
-        public void SendText_Changed(object textSender)
-        {
-            string text = (textSender as TextBox).Text;
-            SendText_Changed(text);
-        }
-        
         public void GetConnection()
         {
             TCPServer.StartServer();
             isConnectedLabel.Content = TCPServer.client.Connected;
+        }
+
+        internal void SendText_Changed(object sender)
+        {
+            TCPServer.SendText_Changed(sender);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace TestSieciKlient.Model.Tests
     [TestClass()]
     public class NetClientTests
     {
+        
         [TestMethod()]
         public void NetClientTest()
         {

@@ -88,13 +88,12 @@ namespace TestSieciKlient.ViewModel
                                 recivedTextLabel.Content = "$$$$$" + reciveString + "$$$$$";
                                 break;
                             case ":AYT?":
-                                MessageBox.Show("Jest");
                                 break;
                             case ":ES":
                                 recivedTextLabel.Content = "";
                                 break;
                             case ":FF":
-                                recivedTextLabel.Content = "#####KomendaFF##########";
+                                recivedTextLabel.Content = "Welcome to the club";
                                 break;
                         }
                     }

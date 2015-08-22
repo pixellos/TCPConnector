@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using System.Net;
 using System;
 using System.Windows;
-
+using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -70,9 +70,6 @@ namespace Common_Files
             client = new TcpClient();
         }
         
-        /// <summary>
-        ///
-        /// </summary>
         /// <param name="ip">IP adress, format xxx.xxx.xxx.xxx</param>
         /// <param name="port"></param>
         public void ChangeParametrs(string ip, int port)
@@ -81,7 +78,7 @@ namespace Common_Files
             this.port = port;
         }
 
-        public void SendText(string text)
+        void SendText(string text)
         {
             if (IsConnected().Equals(true))
             {
@@ -93,7 +90,28 @@ namespace Common_Files
                 {
                     MessageBox.Show("Połączenie zostało przerwane, kliknij połącz aby połączyć", "Oops");
                 }
-                  
+            }
+        }
+
+        public void SendText_Changed(object textSender)
+        {
+            string text = (textSender as TextBox).Text;
+            SendText_Changed(text);
+        }
+
+        /// <summary>
+        /// It Sends text, you should use it into TextChanged event
+        /// </summary>
+        /// <param name="text">Text to send</param>
+        public void SendText_Changed(string text)
+        {
+            if (text != null)
+            {
+                if (text == "")
+                {
+                    text = ":ES"; //:EmptyString
+                }
+                SendText(text);
             }
         }
 
@@ -114,6 +132,7 @@ namespace Common_Files
                 return null;
             }
         }
+
         public bool IsEverythingExist()
         {
             if (client != null && comunicator != null)
@@ -175,6 +194,11 @@ namespace Common_Files
             }
             return true;
         }
+    }
+
+    public abstract class BackgroundConnectionHelper
+    {
+
     }
 }
                                          
