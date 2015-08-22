@@ -46,7 +46,10 @@ namespace TestSieci
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            serverViewModel.SendText_Changed(textBox.Text);
+            if (serverViewModel!=null)
+            {
+                serverViewModel.SendText_Changed(textBox.Text);
+            }
         }
     }
 }

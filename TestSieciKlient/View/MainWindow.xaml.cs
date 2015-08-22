@@ -39,5 +39,10 @@ namespace TestSieciKlient
         {
             clientViewModel.StartClientClick(sender,e);           
         }
+
+        private void textToSend_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

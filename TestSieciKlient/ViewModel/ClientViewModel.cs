@@ -18,11 +18,10 @@ namespace TestSieciKlient.ViewModel
         /// <param name="receivedTextLabel"
         /// Label to receive text by TCPIP
         /// </param>
-        const string _IP = "127.0.0.1";
-        const int _PORT = 1024;
+        string _IP = "127.0.0.1";
+        int _PORT = 1024;
         NetClient netClient;
         private BackgroundWorker backgrounworker;
-        
         private string label1text;
         private string label2text;
         Label statusLabel;
@@ -91,9 +90,7 @@ namespace TestSieciKlient.ViewModel
             }
             catch (System.Exception ex)
             {
-
                 MessageBox.Show(ex.ToString());
-               
             }
             
             label1text = netClient.client.Connected.ToString();

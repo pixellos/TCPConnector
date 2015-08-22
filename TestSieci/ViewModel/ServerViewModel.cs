@@ -24,11 +24,11 @@ namespace TestSieci.ViewModel
     
     class ServerViewModel
     {
-        const string _IP = "127.0.0.1";
-        const int _PORT = 1024;
+        string _IP = "127.0.0.1";
+        int _PORT = 1024;
         TCPServer TCPServer;
         Label isConnectedLabel;
-        string outputText;
+
         public ServerViewModel(Label isConnectedLabel)
         {
             TCPServer = new TCPServer(_IP, _PORT);
@@ -43,6 +43,7 @@ namespace TestSieci.ViewModel
         {
             this.isConnectedLabel = isConnectedLabel;
         }
+
         /// <summary>
         /// It Sends text, you should use it into TextChanged event
         /// </summary>
@@ -57,9 +58,7 @@ namespace TestSieci.ViewModel
                 }
                 SendText(text);
             }
-            
         }
-
        
         /// <param name="text">You can pass sender object to make things easier</param>
         private void SendText(string text)
@@ -79,6 +78,7 @@ namespace TestSieci.ViewModel
             string text = (textSender as TextBox).Text;
             SendText(text);
         }
+
         /// <summary>
         /// Use it to try connect to server
         /// </summary>
@@ -87,7 +87,7 @@ namespace TestSieci.ViewModel
         public void GetConnectionButtonClick(object sender, RoutedEventArgs e)
         {
             TCPServer.StartServer();
-            isConnectedLabel.Content = TCPServer.serverClient.Connected;
+            isConnectedLabel.Content = TCPServer.client.Connected;
         }
     }
 }

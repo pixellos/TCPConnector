@@ -11,40 +11,11 @@ namespace TestSieciKlient.Model
 {
 
     
-    public class NetClient
+    public class NetClient :abstract_Connector
     {
-        public TcpClient client { get; private set; }
-        string ip;
-        int port;
-        public Comunicator comunicator { get; private set; }
-
-        public NetClient(string ip,int port)
+        public NetClient(string ip, int port)  :base(ip,port)
         {
-            ChangeParametrs(ip, port);
-            client = new TcpClient();
-        }
 
-        public bool Connect()
-        {
-            client = new TcpClient();
-            try
-            {
-                client.Connect(ip, port);
-                comunicator = new Comunicator(client.GetStream());
-            }
-            catch (Exception ex)
-            {
-                return false;
-               
-                //ToDo Log += ex.ToString() + Environment.NewLine; 
-            }
-            return true;
-        }
-
-        public void ChangeParametrs(string ip, int port)
-        {
-            this.ip = ip;
-            this.port = port;
         }
     }
 }

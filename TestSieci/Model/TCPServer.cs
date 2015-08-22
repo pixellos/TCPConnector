@@ -10,21 +10,12 @@ using Common_Files;
 
 namespace TestSieci.Model
 {
-    class TCPServer
+    class TCPServer : abstract_Connector
     {
         public TcpListener listener { get; private set; }
-        public TcpClient serverClient { get; private set; }
-        public Comunicator comunicator;
-        public string IP { get; private set; }
-        public int Port { get; private set; }
-        public TCPServer(string IP,int Port)
+
+        public TCPServer(string iP, int port):base(iP,port)
         {
-            ChangeParametrs(IP, Port);
-        }
-        void ChangeParametrs(string IP, int Port)
-        {
-            this.IP = IP;
-            this.Port = Port;
         }
 
         public void StartServer()
@@ -33,15 +24,15 @@ namespace TestSieci.Model
             {
                 listener.Stop();
             }
-            listener = new TcpListener(IPAddress.Parse(IP), Port);
+            listener = new TcpListener(IPAddress.Parse(ip), port);
             listener.Start();
-            serverClient = listener.AcceptTcpClient();
-            comunicator = new Comunicator(serverClient.GetStream());
+            client = listener.AcceptTcpClient();
+            comunicator = new Comunicator(client.GetStream());
         }
 
         public bool IsActive()
         {
-            return (serverClient != null && serverClient.Connected);
+            return (client != null && client.Connected);
         }
     }
 }
