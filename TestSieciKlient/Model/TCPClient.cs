@@ -9,13 +9,11 @@ using System.IO;
 using Common_Files;
 namespace TestSieciKlient.Model
 {
-
     
-    public class NetClient :abstract_Connector
+    sealed class NetClient :abstract_Connector
     {
         public NetClient(string ip, int port)  :base(ip,port)
         {
-
         }
     }
 }

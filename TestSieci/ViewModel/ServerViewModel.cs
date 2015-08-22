@@ -35,10 +35,6 @@ namespace TestSieci.ViewModel
             SetConectionLabel(isConnectedLabel);
         }
 
-        /// <summary>
-        /// It sets connection with server status label
-        /// </summary>
-        /// <param name="isConnectedLabel">Server status label</param>
         public void SetConectionLabel(Label isConnectedLabel)
         {
             this.isConnectedLabel = isConnectedLabel;
@@ -56,35 +52,17 @@ namespace TestSieci.ViewModel
                 {
                     text = ":ES"; //:EmptyString
                 }
-                SendText(text);
+                TCPServer.SendText(text);
             }
         }
-       
-        /// <param name="text">You can pass sender object to make things easier</param>
-        private void SendText(string text)
-        {
-            if (TCPServer != null && TCPServer.IsActive())
-            {
-                TCPServer.comunicator.BinaryWriter.Write(text);
-            }
-        }
-
-        /// <summary>
-        /// It Sends text, you should use it into TextChanged event
-        /// </summary>
-        /// <param name="textSender">You can pass sender object to make things easier</param>
+        
         public void SendText_Changed(object textSender)
         {
             string text = (textSender as TextBox).Text;
-            SendText(text);
+            SendText_Changed(text);
         }
-
-        /// <summary>
-        /// Use it to try connect to server
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void GetConnectionButtonClick(object sender, RoutedEventArgs e)
+        
+        public void GetConnection()
         {
             TCPServer.StartServer();
             isConnectedLabel.Content = TCPServer.client.Connected;

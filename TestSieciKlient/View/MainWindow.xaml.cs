@@ -30,9 +30,8 @@ namespace TestSieciKlient
         ClientViewModel clientViewModel;
         public MainWindow()
         {
-            
             InitializeComponent();
-            clientViewModel = new ClientViewModel(isConnected, recivedText);
+            clientViewModel = new ClientViewModel(isConnected,recivedText);
         }
         
         private void button_Click(object sender, RoutedEventArgs e)
@@ -42,7 +41,6 @@ namespace TestSieciKlient
 
         private void textToSend_TextChanged(object sender, TextChangedEventArgs e)
         {
-
         }
     }
 }

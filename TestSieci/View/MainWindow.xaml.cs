@@ -36,14 +36,14 @@ namespace TestSieci
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            serverViewModel.GetConnectionButtonClick(sender, e);
+            serverViewModel.GetConnection();
         }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (serverViewModel!=null)
             {
-                serverViewModel.SendText_Changed(textBox.Text);
+                serverViewModel.SendText_Changed(sender);
             }
         }
     }

@@ -6,24 +6,14 @@ using TestSieciKlient.Model;
 
 namespace TestSieciKlient.ViewModel
 {     
-        
-    ///<summary>
-    ///Connection to ViewModel, this VievModel provides connection TCP with server. 
-    ///</summary>
     class ClientViewModel
     {
-        ///<param name="statusLabel">
-        /// Label of client link with server status
-        /// </param>
-        /// <param name="receivedTextLabel"
-        /// Label to receive text by TCPIP
-        /// </param>
         string _IP = "127.0.0.1";
         int _PORT = 1024;
         NetClient netClient;
-        private BackgroundWorker backgrounworker;
-        private string label1text;
-        private string label2text;
+        private BackgroundWorker backgrounworker;      //Todo Backgroundworker to external class
+        private string statusString;
+        private string reciveString;
         Label statusLabel;
         Label recivedTextLabel;
 
@@ -34,31 +24,35 @@ namespace TestSieciKlient.ViewModel
             SetRecivedLabel(recivedTextLabel);
         }
 
-        ///<summary>
-        ///Reseting of status Label
-        /// </summary>
+        public bool? IsConnected()
+        {
+            return netClient.IsConnected();
+        }
+
         public void SetStatusLabel(Label statusLabel)
         {   
             this.statusLabel = statusLabel;
         }
-
-        ///<summary>
-        /// Reseting recive text label
-        /// </summary>
+        
         public void SetRecivedLabel(Label recivedTextLabel)
         {
             this.recivedTextLabel = recivedTextLabel;
         }
-
-        ///<summary>
-        /// Making things easier ;)
-        /// </summary>
+        
         public void StartClientClick(object sender, RoutedEventArgs e)
         {
-            netClient.Connect();
-            BackgroundWorkerInitializator(backgrounworker, new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
+            if (netClient.Connect())
+            {
+                BackgroundWorkerInitializator(backgrounworker, new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
+            }
         }
 
+        /// <summary>
+        /// If u want get Backgroundworker at loop, at updateGui cal (sender as BackgroundWorker).RunWorkerAsync();
+        /// </summary>
+        /// <param name="backgroundWorker"></param>
+        /// <param name="ToDo"></param>
+        /// <param name="UpdateGui"></param>
         private void BackgroundWorkerInitializator(BackgroundWorker backgroundWorker, DoWorkEventHandler ToDo, RunWorkerCompletedEventHandler UpdateGui)
         {
             if (backgroundWorker == null)
@@ -72,61 +66,50 @@ namespace TestSieciKlient.ViewModel
 
         private void OnCallBack(object sender, DoWorkEventArgs e)
         {
-            string result;
-            try
-            {
-                if (netClient.client.Connected)
-                {
-                    if ((netClient != null && (result = netClient.comunicator.BinaryReader.ReadString()) != ""))
-                    {
-                        
-                        label2text = result;
-                    }
-                }
-                else
-                {
-                    netClient.Connect();
-                }
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            
-            label1text = netClient.client.Connected.ToString();
+            reciveString = netClient.ReadText();
+            statusString = netClient.client.Connected.ToString();
         }
-                  /// <summary>
-                  /// CommandsToActon and update gui
-                  /// </summary>
-                  /// <param name="sender"></param>
-                  /// <param name="e"></param>
+
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
-            statusLabel.Content = label1text;
-            if (label2text != "")
+            statusLabel.Content = statusString;
+            
+            /////////////////////////////////////////////////////////////////
+            //////////////////TODO !!! CODE/ENCODE COMMON LIB!///////////////
+            if (reciveString != null)
             {
-                if (label2text.ToCharArray()[0] == ':')
+                if (reciveString != "")
                 {
-                    switch (label2text)
+                    if (reciveString.ToCharArray()[0] == ':')
                     {
-                        default:
-                            recivedTextLabel.Content = "$$$$$" + label2text + "$$$$$";
-                            break;
-                        case ":ES":
-                            recivedTextLabel.Content = "";
-                            break;
-                        case ":FF":
-                            recivedTextLabel.Content = "#####KomendaFF##########";
-                            break;
+                        switch (reciveString)
+                        {
+                            default:
+                                recivedTextLabel.Content = "$$$$$" + reciveString + "$$$$$";
+                                break;
+                            case ":AYT?":
+                                MessageBox.Show("Jest");
+                                break;
+                            case ":ES":
+                                recivedTextLabel.Content = "";
+                                break;
+                            case ":FF":
+                                recivedTextLabel.Content = "#####KomendaFF##########";
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        recivedTextLabel.Content = reciveString;
                     }
                 }
-                else
-                {
-                    recivedTextLabel.Content = label2text;
-                }
             }
-            BackgroundWorker reference = sender as BackgroundWorker;
-            reference.RunWorkerAsync();
+            ////////////////////////////////////////////////////////////////////
+            var Reference = sender as BackgroundWorker;
+            if (IsConnected().Value.Equals(true))
+            {
+                Reference.RunWorkerAsync();
+            }
         }
     }
 }
