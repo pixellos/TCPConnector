@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using System.Net;
 using System;
 using System.Windows;
+using System.ComponentModel;
 using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,6 +77,42 @@ namespace Common_Files
         {
             this.ip = ip;
             this.port = port;
+        }
+
+        public bool StartServer(TcpListener tcpListener)
+        {
+            if (tcpListener != null)
+            {
+                tcpListener.Stop();
+            }
+            tcpListener = new TcpListener(IPAddress.Parse(ip), port);
+            tcpListener.Start();
+            client = tcpListener.AcceptTcpClient();
+            if (comunicator == null)
+            {
+                comunicator = new Comunicator(client.GetStream());
+            }
+            else comunicator.ChangeParametrs(client.GetStream());
+            if (tcpListener.Pending())     //If someone connected with server
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public bool Connect()
+        {
+            try
+            {
+                client = new TcpClient(ip, port);
+                comunicator = new Comunicator(client.GetStream());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("U cannot connect beacuse " + ex.Message, "Opps, i cannot " + "Connect :/");
+                return false;
+            }
+            return true;
         }
 
         void SendText(string text)
@@ -159,46 +196,34 @@ namespace Common_Files
             }
         }
 
-        public bool StartServer(TcpListener tcpListener)
-        {
-            if (tcpListener != null)
-            {
-                tcpListener.Stop();
-            }
-            tcpListener = new TcpListener(IPAddress.Parse(ip), port);
-            tcpListener.Start();
-            client = tcpListener.AcceptTcpClient();
-            if (comunicator == null)
-            {
-                comunicator = new Comunicator(client.GetStream());
-            }
-            else comunicator.ChangeParametrs(client.GetStream());
-            if (tcpListener.Pending())     //If someone connected with server
-            {
-                return true;
-            }
-            else return false;
-        }
 
-        public bool Connect()
-        {
-            try
-            {
-                client = new TcpClient(ip, port);
-                comunicator = new Comunicator(client.GetStream());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("U cannot connect beacuse " + ex.Message, "Opps, i cannot " + "Connect :/");
-                return false;
-            }
-            return true;
-        }
     }
 
-    public abstract class BackgroundConnectionHelper
+    /// <summary>
+    /// If u want get Backgroundworker at loop, at updateGui cal (sender as BackgroundWorker).RunWorkerAsync();
+    /// </summary>         
+    public class BackgroundConnectionHelper
     {
+        BackgroundWorker backgroundWorker;
 
+        public BackgroundConnectionHelper(DoWorkEventHandler AsyncDelegate, RunWorkerCompletedEventHandler GUIDelegate, ProgressChangedEventHandler ProgressChanged)
+        {
+            backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += AsyncDelegate;
+            backgroundWorker.RunWorkerCompleted += GUIDelegate;
+            backgroundWorker.ProgressChanged += ProgressChanged;
+        }
+
+        public BackgroundConnectionHelper(DoWorkEventHandler AsyncDelegate, RunWorkerCompletedEventHandler GUIDelegate)
+        {
+            backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += AsyncDelegate;
+            backgroundWorker.RunWorkerCompleted += GUIDelegate;
+        }
+
+        public void Start() { backgroundWorker.RunWorkerAsync(); }
+        
+        public void Stop() { backgroundWorker.CancelAsync(); }
     }
 }
                                          

@@ -18,20 +18,17 @@ using TestSieci.Model;
 
 namespace TestSieci.ViewModel
 {
-    /// <summary>
-    /// Basic viewmodel for main server window
-    /// </summary>
     
     class ServerViewModel
     {
-        string _IP = "127.0.0.1";
-        int _PORT = 1024;
+        string ip = "127.0.0.1";
+        int port = 1024;
         TCPServer TCPServer;
         Label isConnectedLabel;
 
         public ServerViewModel(Label isConnectedLabel)
         {
-            TCPServer = new TCPServer(_IP, _PORT);
+            TCPServer = new TCPServer(ip, port);
             SetConectionLabel(isConnectedLabel);
         }
 

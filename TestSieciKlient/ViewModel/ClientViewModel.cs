@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using TestSieciKlient.Model;
+using Common_Files;
 
 namespace TestSieciKlient.ViewModel
 {     
@@ -11,57 +12,28 @@ namespace TestSieciKlient.ViewModel
         string _IP = "127.0.0.1";
         int _PORT = 1024;
         NetClient netClient;
-        private BackgroundWorker backgrounworker;      //Todo Backgroundworker to external class
-        private string statusString;
-        private string reciveString;
-        Label statusLabel;
-        Label recivedTextLabel;
+        private BackgroundConnectionHelper backgroundHelper;
+        private string statusString, reciveString;
+        Label statusLabel, recivedTextLabel;
 
         public ClientViewModel(Label statusLabel, Label recivedTextLabel)
         {
             netClient = new NetClient(_IP, _PORT);
             SetStatusLabel(statusLabel);
             SetRecivedLabel(recivedTextLabel);
+            backgroundHelper = new BackgroundConnectionHelper(new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
         }
 
-        public bool? IsConnected()
-        {
-            return netClient.IsConnected();
-        }
+        public bool? IsConnected()  { return netClient.IsConnected(); }
 
-        public void SetStatusLabel(Label statusLabel)
-        {   
-            this.statusLabel = statusLabel;
-        }
-        
-        public void SetRecivedLabel(Label recivedTextLabel)
-        {
-            this.recivedTextLabel = recivedTextLabel;
-        }
+        public void SetStatusLabel(Label statusLabel) { this.statusLabel = statusLabel; }   
+            
+        public void SetRecivedLabel(Label recivedTextLabel) { this.recivedTextLabel = recivedTextLabel; }
         
         public void StartClientClick(object sender, RoutedEventArgs e)
         {
             if (netClient.Connect())
-            {
-                BackgroundWorkerInitializator(backgrounworker, new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
-            }
-        }
-
-        /// <summary>
-        /// If u want get Backgroundworker at loop, at updateGui cal (sender as BackgroundWorker).RunWorkerAsync();
-        /// </summary>
-        /// <param name="backgroundWorker"></param>
-        /// <param name="ToDo"></param>
-        /// <param name="UpdateGui"></param>
-        private void BackgroundWorkerInitializator(BackgroundWorker backgroundWorker, DoWorkEventHandler ToDo, RunWorkerCompletedEventHandler UpdateGui)
-        {
-            if (backgroundWorker == null)
-            {
-                backgroundWorker = new BackgroundWorker();
-                backgroundWorker.DoWork += ToDo;
-                backgroundWorker.RunWorkerCompleted += UpdateGui;
-                backgroundWorker.RunWorkerAsync();
-            }
+                backgroundHelper.Start();
         }
 
         private void OnCallBack(object sender, DoWorkEventArgs e)
@@ -73,7 +45,6 @@ namespace TestSieciKlient.ViewModel
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
             statusLabel.Content = statusString;
-            
             /////////////////////////////////////////////////////////////////
             //////////////////TODO !!! CODE/ENCODE COMMON LIB!///////////////
             if (reciveString != null)
