@@ -14,18 +14,10 @@ namespace TestSieci.Model
     {
         TcpListener listener { get; set; }
 
-        public TCPServer(string iP, int port):base(iP,port)
-        {
-        }
+        public TCPServer(string iP, int port):base(iP,port) {}
 
-        public bool StartServer()
-        {
-            return StartServer(listener);
-        }
+        public bool StartServer() { return StartServer(listener); }
 
-        public bool IsActive()
-        {
-            return (client != null);
-        }
+        public bool IsActive() { return (client != null); }
     }
 }

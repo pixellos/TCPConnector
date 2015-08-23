@@ -12,8 +12,6 @@ namespace TestSieciKlient.Model
     
     sealed class NetClient :abstract_Connector
     {
-        public NetClient(string ip, int port)  :base(ip,port)
-        {
-        }
+        public NetClient(string ip, int port)  :base(ip,port) {}
     }
 }

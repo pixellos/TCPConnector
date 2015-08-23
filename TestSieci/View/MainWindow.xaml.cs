@@ -21,9 +21,6 @@ using TestSieci.ViewModel;
 
 namespace TestSieci
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         ServerViewModel serverViewModel;
@@ -31,13 +28,10 @@ namespace TestSieci
         {
             InitializeComponent();
             serverViewModel = new ServerViewModel(isConnectedLabel);
-            this.Title = "Serwer";
+            this.Title = "Server v0.1";
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            serverViewModel.GetConnection();
-        }
+        private void button_Click(object sender, RoutedEventArgs e) { serverViewModel.GetConnection(); }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {

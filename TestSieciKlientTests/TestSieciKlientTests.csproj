@@ -59,13 +59,13 @@
       <Project>{ee00ff17-b824-4150-a0db-abf8b7dd3522}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestSieciKlient\TestSieciKlient.csproj">
+    <ProjectReference Include="..\TestSieciKlient\Client.csproj">
       <Project>{59C5D824-738E-4B6F-BEBF-3AB7B1842877}</Project>
-      <Name>TestSieciKlient</Name>
+      <Name>Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestSieci\TestSieciSerwer.csproj">
+    <ProjectReference Include="..\TestSieci\Server.csproj">
       <Project>{772344d1-1ed9-4a56-9455-eb0b41a4e005}</Project>
-      <Name>TestSieciSerwer</Name>
+      <Name>Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

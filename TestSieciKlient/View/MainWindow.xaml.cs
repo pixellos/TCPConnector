@@ -21,7 +21,6 @@ using TestSieciKlient.Model;
 using TestSieciKlient.ViewModel;
 namespace TestSieciKlient
 {
-   
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -32,16 +31,11 @@ namespace TestSieciKlient
         {
             InitializeComponent();
             clientViewModel = new ClientViewModel(isConnected,recivedText);
-
+            this.Title = "Client v0.01";
         }
         
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            clientViewModel.StartClientClick(sender,e);           
-        }
+        private void button_Click(object sender, RoutedEventArgs e) { clientViewModel.StartClientClick(sender,e); }
 
-        private void textToSend_TextChanged(object sender, TextChangedEventArgs e)
-        {
-        }
+        private void textToSend_TextChanged(object sender, TextChangedEventArgs e) {}
     }
 }

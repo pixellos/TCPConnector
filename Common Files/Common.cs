@@ -100,6 +100,32 @@ namespace Common_Files
             else return false;
         }
 
+        /// <summary>
+        /// Is client connected bool?
+        /// </summary>
+        /// <returns>If there's no client returns null</returns>
+        public bool? IsConnected()
+        {
+            if (client == null || comunicator == null)
+            {
+                return null;
+            }
+            else
+            {
+                comunicator.SendText(":AYT?");///Send command :AreYouThere, beacuse connected have Conection status to last IO Operation https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.connected.aspx
+                return client.Connected;
+            }
+        }
+
+        public bool IsEverythingExist()
+        {
+            if (client != null && comunicator != null)
+            {
+                return true;
+            }
+            else return false;
+        }
+
         public bool Connect()
         {
             try
@@ -169,34 +195,6 @@ namespace Common_Files
                 return null;
             }
         }
-
-        public bool IsEverythingExist()
-        {
-            if (client != null && comunicator != null)
-            {
-                return true;
-            }
-            else return false;
-        }
-
-        /// <summary>
-        /// Is client connected bool?
-        /// </summary>
-        /// <returns>If there's no client returns null</returns>
-        public bool? IsConnected()
-        {
-            if (client == null || comunicator == null)
-            {
-                return null;
-            }
-            else
-            {
-                comunicator.SendText(":AYT?");///Send command :AreYouThere, beacuse connected have Conection status to last IO Operation https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.connected.aspx
-                return client.Connected;
-            }
-        }
-
-
     }
 
     /// <summary>
