@@ -37,6 +37,7 @@ namespace Common_Files
         public virtual void AddToDict()
         {
             Commands.CommandBind.Add(":ES", EmptyString);
+            Commands.CommandBind.Add(":AYT", null);
         }
 
         string EmptyString(string text) { return ""; }

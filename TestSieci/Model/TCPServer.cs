@@ -16,8 +16,29 @@ namespace TestSieci.Model
 
         public TCPServer(string iP, int port):base(iP,port) {}
 
-        public bool StartServer() { return StartServer(listener); }
 
         public bool IsActive() { return (client != null); }
+
+        public bool StartServer()
+        {
+            if (listener != null)
+            {
+                listener.Stop();
+            }
+            listener = new TcpListener(IPAddress.Parse(ip), port);
+            listener.Start();
+            client = listener.AcceptTcpClient();
+            if (comunicator == null)
+            {
+                comunicator = new Comunicator(client.GetStream());
+            }
+            else comunicator.ChangeParametrs(client.GetStream());
+            if (listener.Pending())     //If someone connected with server
+            {
+                return true;
+            }
+            else return false;
+        }
+
     }
 }

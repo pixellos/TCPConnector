@@ -13,16 +13,13 @@ using System.Threading.Tasks;
 
 namespace Common_Files
 {
-    internal class Comunicator : IDisposable
+    public class Comunicator : IDisposable
     {
         Stream newStream;
-        public BinaryReader BinaryReader { get; private set; }
-        public BinaryWriter BinaryWriter { get; private set; }
+        protected BinaryReader BinaryReader { get; private set; }
+        protected BinaryWriter BinaryWriter { get; private set; }
 
-        public Comunicator(Stream IOStream)
-        {
-            ChangeParametrs(IOStream);
-        }
+        public Comunicator(Stream IOStream) { ChangeParametrs(IOStream); }
 
         public void ChangeParametrs(Stream IOStream)
         {
@@ -40,15 +37,9 @@ namespace Common_Files
             else return true;
         }
 
-        public string ReadText()
-        {   
-            return BinaryReader.ReadString();
-        }
+        public string ReadText() { return BinaryReader.ReadString(); }
 
-        public void SendText(string text)
-        {  
-            BinaryWriter.Write(text);
-        }
+        public void SendText(string text) { BinaryWriter.Write(text); }
 
         public void Dispose()
         {
@@ -63,7 +54,7 @@ namespace Common_Files
         public TcpClient client { get; protected set; }
         protected string ip;
         protected int port;
-        Comunicator comunicator { get; set; }
+        protected Comunicator comunicator { get; set; }
 
         public abstract_Connector(string ip, int port)
         {
@@ -79,26 +70,7 @@ namespace Common_Files
             this.port = port;
         }
 
-        public bool StartServer(TcpListener tcpListener)
-        {
-            if (tcpListener != null)
-            {
-                tcpListener.Stop();
-            }
-            tcpListener = new TcpListener(IPAddress.Parse(ip), port);
-            tcpListener.Start();
-            client = tcpListener.AcceptTcpClient();
-            if (comunicator == null)
-            {
-                comunicator = new Comunicator(client.GetStream());
-            }
-            else comunicator.ChangeParametrs(client.GetStream());
-            if (tcpListener.Pending())     //If someone connected with server
-            {
-                return true;
-            }
-            else return false;
-        }
+        
 
         /// <summary>
         /// Is client connected bool?
@@ -117,14 +89,6 @@ namespace Common_Files
             }
         }
 
-        public bool IsEverythingExist()
-        {
-            if (client != null && comunicator != null)
-            {
-                return true;
-            }
-            else return false;
-        }
 
         public bool Connect()
         {
@@ -178,11 +142,15 @@ namespace Common_Files
             }
         }
 
+        /// <summary>
+        /// Returns null while there is no connection
+        /// </summary>
+        /// <returns></returns>
         public string ReadText()
         {
             try
             {
-                if (IsEverythingExist() && IsConnected().Value.Equals(true))
+                if (IsConnected() ?? false)
                 {
                     return comunicator.ReadText();
                 }
