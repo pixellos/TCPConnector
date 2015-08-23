@@ -18,7 +18,6 @@ using TestSieci.Model;
 
 namespace TestSieci.ViewModel
 {
-    
     class ServerViewModel
     {
         string ip = "127.0.0.1";
@@ -32,20 +31,14 @@ namespace TestSieci.ViewModel
             SetConectionLabel(isConnectedLabel);
         }
 
-        public void SetConectionLabel(Label isConnectedLabel)
-        {
-            this.isConnectedLabel = isConnectedLabel;
-        }
-
         public void GetConnection()
         {
             TCPServer.StartServer();
             isConnectedLabel.Content = TCPServer.client.Connected;
         }
 
-        internal void SendText_Changed(object sender)
-        {
-            TCPServer.SendText_Changed(sender);
-        }
+        public void SetConectionLabel(Label isConnectedLabel) { this.isConnectedLabel = isConnectedLabel; }
+
+        internal void SendText_Changed(object sender) { TCPServer.SendText_Changed(sender); }
     }
 }

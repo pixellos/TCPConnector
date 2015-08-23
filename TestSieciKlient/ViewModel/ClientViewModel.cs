@@ -12,6 +12,7 @@ namespace TestSieciKlient.ViewModel
         string _IP = "127.0.0.1";
         int _PORT = 1024;
         NetClient netClient;
+        Commands CommandControler;
         private BackgroundConnectionHelper backgroundHelper;
         private string statusString, reciveString;
         Label statusLabel, recivedTextLabel;
@@ -21,6 +22,7 @@ namespace TestSieciKlient.ViewModel
             netClient = new NetClient(_IP, _PORT);
             SetStatusLabel(statusLabel);
             SetRecivedLabel(recivedTextLabel);
+            CommandControler = new Commands();
             backgroundHelper = new BackgroundConnectionHelper(new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
         }
 
@@ -45,36 +47,10 @@ namespace TestSieciKlient.ViewModel
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
             statusLabel.Content = statusString;
-            /////////////////////////////////////////////////////////////////
-            //////////////////TODO !!! CODE/ENCODE COMMON LIB!///////////////
             if (reciveString != null)
             {
-                if (reciveString != "")
-                {
-                    if (reciveString.ToCharArray()[0] == ':')
-                    {
-                        switch (reciveString)
-                        {
-                            default:
-                                recivedTextLabel.Content = "$$$$$" + reciveString + "$$$$$";
-                                break;
-                            case ":AYT?":
-                                break;
-                            case ":ES":
-                                recivedTextLabel.Content = "";
-                                break;
-                            case ":FF":
-                                recivedTextLabel.Content = "Welcome to the club";
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        recivedTextLabel.Content = reciveString;
-                    }
-                }
+               recivedTextLabel.Content = CommandControler.Decode(reciveString);
             }
-            ////////////////////////////////////////////////////////////////////
             var Reference = sender as BackgroundWorker;
             if (IsConnected().Value.Equals(true))
             {
