@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSieci"
         mc:Ignorable="d"
-        Title="MainWindow" Height="126.438" Width="331.124">
+        Title="MainWindow" Height="171.771" Width="331.124">
     <Grid>
         <Label x:Name="isConnectedLabel" Content="IsConnected" HorizontalAlignment="Left" Margin="134,10,0,0" VerticalAlignment="Top" Width="81" Height="30"/>
         <Button x:Name="button" Content="Uruchom serwer" HorizontalAlignment="Left" Margin="220,13,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.097,2.059" Click="button_Click">
@@ -26,5 +26,16 @@
             </TextBox.Background>
         </TextBox>
         <Label x:Name="label1" Content="Połączenie nawiązane?&#xA;" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="134" Height="33"/>
+        <Label x:Name="recivedText" Content="TEKSTODEBRANY&#xA;" HorizontalAlignment="Left" Margin="5,84,0,0" VerticalAlignment="Top" Height="45" Width="305">
+            <Label.Background>
+                <RadialGradientBrush Opacity="0.3">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" Offset="0.102"/>
+                </RadialGradientBrush>
+            </Label.Background>
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect>
+        </Label>
     </Grid>
 </Window>

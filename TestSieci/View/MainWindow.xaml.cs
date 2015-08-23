@@ -27,7 +27,7 @@ namespace TestSieci
         public MainWindow()
         {
             InitializeComponent();
-            serverViewModel = new ServerViewModel(isConnectedLabel);
+            serverViewModel = new ServerViewModel(isConnectedLabel,label1);
             this.Title = "Server v0.1";
         }
 
@@ -36,9 +36,7 @@ namespace TestSieci
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (serverViewModel!=null)
-            {
                 serverViewModel.SendText_Changed(sender);
-            }
         }
     }
 }

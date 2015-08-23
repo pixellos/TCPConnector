@@ -39,7 +39,17 @@ namespace Common_Files
 
         public string ReadText() { return BinaryReader.ReadString(); }
 
-        public void SendText(string text) { BinaryWriter.Write(text); }
+        public void SendText(string text)
+        {
+            try
+            {
+                BinaryWriter.Write(text);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("Nie można uzyskać dostępu do strumienia zapisu z powodu: \n" + ex.Message, "Oops,");
+            }
+        }
 
         public void Dispose()
         {
@@ -175,9 +185,11 @@ namespace Common_Files
         public BackgroundConnectionHelper(DoWorkEventHandler AsyncDelegate, RunWorkerCompletedEventHandler GUIDelegate, ProgressChangedEventHandler ProgressChanged)
         {
             backgroundWorker = new BackgroundWorker();
+            backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.DoWork += AsyncDelegate;
             backgroundWorker.RunWorkerCompleted += GUIDelegate;
             backgroundWorker.ProgressChanged += ProgressChanged;
+           
         }
 
         public BackgroundConnectionHelper(DoWorkEventHandler AsyncDelegate, RunWorkerCompletedEventHandler GUIDelegate)
@@ -187,7 +199,10 @@ namespace Common_Files
             backgroundWorker.RunWorkerCompleted += GUIDelegate;
         }
 
-        public void Start() { backgroundWorker.RunWorkerAsync(); }
+        public void Start()
+        {
+            backgroundWorker.RunWorkerAsync();
+        }
         
         public void Stop() { backgroundWorker.CancelAsync(); }
     }

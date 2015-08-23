@@ -26,7 +26,9 @@ namespace TestSieciKlient.ViewModel
             backgroundHelper = new BackgroundConnectionHelper(new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
         }
 
-        public bool? IsConnected()  { return netClient.IsConnected(); }
+        internal void SendText_Changed(object sender) { netClient.SendText_Changed(sender); }
+
+       
 
         public void SetStatusLabel(Label statusLabel) { this.statusLabel = statusLabel; }   
             
@@ -49,13 +51,14 @@ namespace TestSieciKlient.ViewModel
             statusLabel.Content = statusString;
             if (reciveString != null)
             {
-               recivedTextLabel.Content = CommandControler.Decode(reciveString);
+
+                if (CommandControler.Decode(reciveString) != Commands.DONOTDISPLAY)
+                {
+                    recivedTextLabel.Content = CommandControler.Decode(reciveString);
+                }
+                else recivedTextLabel.Content = recivedTextLabel.Content;
             }
-            var Reference = sender as BackgroundWorker;
-            if (IsConnected().Value.Equals(true))
-            {
-                Reference.RunWorkerAsync();
-            }
+            
         }
     }
 }
