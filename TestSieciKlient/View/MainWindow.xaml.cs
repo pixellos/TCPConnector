@@ -26,15 +26,12 @@ namespace TestSieciKlient
     /// </summary>
     public partial class MainWindow : Window
     {
-        ClientViewModel clientViewModel;
         public MainWindow()
         {
             InitializeComponent();
-            clientViewModel = new ClientViewModel(isConnected,recivedText);
-            this.Title = "Client v0.01";
         }
         
-        private void button_Click(object sender, RoutedEventArgs e) { clientViewModel.StartClientClick(sender,e); }
+        private void button_Click(object sender, RoutedEventArgs e) {}
 
         private void textToSend_TextChanged(object sender, TextChangedEventArgs e) {}
     }

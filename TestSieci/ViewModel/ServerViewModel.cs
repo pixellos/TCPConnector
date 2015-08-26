@@ -18,28 +18,10 @@ using System.ComponentModel;
 using TestSieci.Model;
 
 
+
 namespace TestSieci.ViewModel
 {
-    public class CommandAction : ICommand
-    {
-        public event EventHandler CanExecuteChanged;
-        private Action _action;
-
-        public CommandAction(Action SomeAction)
-        {
-            _action = SomeAction;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            _action();
-        }
-    }
+   
  
     public class ServerViewModel : INotifyPropertyChanged
     {
@@ -67,19 +49,19 @@ namespace TestSieci.ViewModel
             internal set { }
             get
             {
-                RaisePropertyChanged("IsConnectedProperty");
+                
                 return _TryToStartServer;
             }
         }
 
-        CommandAction _TryToStartServer;
+        Common.CommandAction _TryToStartServer;
 
 
         public ServerViewModel()
         {
             TCPServer = new TCPServer(ip, port);
 
-            _TryToStartServer = new CommandAction(StartServer);
+            _TryToStartServer = new Common.CommandAction(StartServer);
             
         }
 
@@ -106,7 +88,7 @@ namespace TestSieci.ViewModel
             get { return TCPServer.IsConnected(); }
             set
             {
-                GetConnection();
+                StartServer();
                 RaisePropertyChanged("IsConnectedProperty");
             }
         }

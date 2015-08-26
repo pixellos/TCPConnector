@@ -1,0 +1,6 @@
+///
+SERVER/CLIENT MVVM v0.1 - uncompleted core + beggining with MVVM
+
+todo to reach v0.2 - 
+
+
