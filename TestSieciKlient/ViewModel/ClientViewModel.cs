@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using TestSieciKlient.Model;
 using System.Windows.Input;
+using System.IO;
 
 using Common;
 
@@ -73,8 +74,7 @@ namespace TestSieciKlient.ViewModel
             _Connection = _asyncConnection;            
             if (_asyncRecivedText != null)
             {
-               RecivedText = CommandControler.Decode(_asyncRecivedText);
-                
+                RecivedText = CommandControler.Decode(_asyncRecivedText);
             }
             var Reference = sender as BackgroundWorker;
             if (netClient.IsConnected().Equals(true))

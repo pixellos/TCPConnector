@@ -13,7 +13,7 @@
     <Grid>
         <Button x:Name="ConnectB" Command="{Binding ConnectClick,UpdateSourceTrigger=PropertyChanged}" Content="Connect" HorizontalAlignment="Left" Margin="289,10,0,0" VerticalAlignment="Top" Width="75" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" Height="28" Background="{x:Null}"/>
         <Label x:Name="label" Content="{Binding RecivedText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="53,10,0,0" VerticalAlignment="Top" Width="231" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" Background="#00000000" Height="28"/>
-        <RadioButton x:Name="radioButton" Content="{Binding Connection, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.7,-0.067" Width="15" Focusable="False" IsEnabled="False">
+        <RadioButton x:Name="radioButton" IsChecked="{Binding Connection, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.7,-0.067" Width="15" Focusable="False" IsEnabled="False">
             <RadioButton.Effect>
                 <BlurEffect RenderingBias="Quality" KernelType="Box" Radius="2"/>
             </RadioButton.Effect>
