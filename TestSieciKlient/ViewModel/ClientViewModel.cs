@@ -58,7 +58,7 @@ namespace TestSieciKlient.ViewModel
 
         public void StartClientClick()
         {
-            if (netClient.Connect())
+            if (netClient.Connect()&&backgroundHelper.IsReady)
                 backgroundHelper.Start();
             RaisePropertyChanged("Connection");
         }
@@ -71,7 +71,7 @@ namespace TestSieciKlient.ViewModel
 
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
-            _Connection = _asyncConnection;            
+            Connection = _asyncConnection;            
             if (_asyncRecivedText != null)
             {
                 RecivedText = CommandControler.Decode(_asyncRecivedText);
@@ -101,11 +101,10 @@ namespace TestSieciKlient.ViewModel
         private bool _Connection;
         public  bool Connection
         {
-            get {  return _Connection; }
+            get {  return netClient.IsConnected(); }
             set
             {
                 _Connection = value;
-                
                 RaisePropertyChanged("Connection");
             }
         }

@@ -37,9 +37,32 @@ namespace Common
             else return true;
         }
 
-        public string ReadText() { return BinaryReader.ReadString(); }
+        public string ReadText()
+        {
+            try
+            {
 
-        public void SendText(string text) { BinaryWriter.Write(text); }
+                return BinaryReader.ReadString();
+            }
+            catch (IOException exception)
+            {
+                MessageBox.Show("Cannot write into stream: (Extendend info) \n" + exception.Message);
+                return "!! NO CONNECTION !!";        
+            }
+
+        }
+
+        public void SendText(string text) {
+            try
+            {
+                BinaryWriter.Write(text);
+            }
+            catch (IOException exception)
+            {
+                MessageBox.Show("No connection, cannot write into stream: (Extended)\n" + exception.Message);
+            }
+            
+        }
 
 
         public void Dispose()
@@ -74,20 +97,7 @@ namespace Common
 
         public string ReadText()
         {
-            try
-            {
-                if (IsConnected())
-                {
-                    return comunicator.ReadText();
-                }
-                else return null;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Straciłeś połączenie z powodu " + ex.Message + " Próba odnowienia połączenia", "Opps");
-                Connect();
-                return null;
-            }
+            return comunicator.ReadText();
         }
 
         public void SendText(string text)

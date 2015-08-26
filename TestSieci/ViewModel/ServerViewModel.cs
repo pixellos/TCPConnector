@@ -49,7 +49,7 @@ namespace TestSieci.ViewModel
             internal set { }
             get
             {
-                
+                RaisePropertyChanged("IsConnectedProperty");
                 return _TryToStartServer;
             }
         }
@@ -77,9 +77,10 @@ namespace TestSieci.ViewModel
             set
             {
                 _textToSend = value;
-                
+                RaisePropertyChanged("IsConnectedProperty");
                 TCPServer.SendText(_textToSend);
                 RaisePropertyChanged("TextToSend");
+               
             }
         }
 
@@ -87,8 +88,7 @@ namespace TestSieci.ViewModel
         {
             get { return TCPServer.IsConnected(); }
             set
-            {
-                StartServer();
+            {                   
                 RaisePropertyChanged("IsConnectedProperty");
             }
         }
