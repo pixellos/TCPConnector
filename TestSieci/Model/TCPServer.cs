@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
-using Common_Files;
+using Common;
 
 namespace TestSieci.Model
 {
-    sealed class TCPServer : abstract_Connector
+    sealed class TCPServer : Connector
     {
         TcpListener listener { get; set; }
 

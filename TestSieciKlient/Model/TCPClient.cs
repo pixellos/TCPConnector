@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
-using Common_Files;
+using Common;
 namespace TestSieciKlient.Model
 {
     
-    sealed class NetClient :abstract_Connector
+    sealed class NetClient :Connector
     {
         public NetClient(string ip, int port)  :base(ip,port) {}
     }

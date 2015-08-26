@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-namespace Common_Files
+namespace Common
 {
     public class Commands
     {
         const char StartCommandChar = ':';
-        static Dictionary<string, Func<string, string>> CommandBind = new Dictionary<string, Func<string, string>>();
+        static Dictionary<string, Func<string,string>> CommandBind = new Dictionary<string, Func<string,string>>();
         const string COMMANDFAILED = "##NAZWA???###";
-        public const string DONOTDISPLAY = ":DND!";
 
-        public Commands() { AddToDict(); }
-
+        public Commands()
+        {
+            AddToDict();
+        }
+        
         public string Decode(string input)
         {
             if (input.ToCharArray()[0] == ':')
             {
                 if (CommandBind.ContainsKey(input))
                 {
-                    Func<string, string> doit = CommandBind.Single(x => x.Key == input).Value;
-                    if (doit != null)
-                        return doit(input);
+                    Func<string,string> doit = CommandBind.Single(x => x.Key == input).Value;
+                    return doit(input);
                 }
                 return COMMANDFAILED;
             }
@@ -36,14 +36,10 @@ namespace Common_Files
         /// </summary>
         public virtual void AddToDict()
         {
-            Commands.CommandBind.Add(":ES", CommandDelegates.EmptyString);
-            Commands.CommandBind.Add(":AYT?", CommandDelegates.YesThereAm);
+            Commands.CommandBind.Add(":ES", EmptyString);
+            Commands.CommandBind.Add(":AYT?", EmptyString);
         }
-    }
 
-    public static class CommandDelegates
-    {
-        public static string EmptyString(string text) { return ""; }
-        public static string YesThereAm(string text) { return Commands.DONOTDISPLAY; }
+        string EmptyString(string text) { return ""; }
     }
 }

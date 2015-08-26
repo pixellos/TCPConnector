@@ -36,13 +36,6 @@ namespace TestSieciKlient
         
         private void button_Click(object sender, RoutedEventArgs e) { clientViewModel.StartClientClick(sender,e); }
 
-        private void textToSend_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (clientViewModel !=null)
-            {
-                clientViewModel.SendText_Changed(sender);
-            }
-        }
+        private void textToSend_TextChanged(object sender, TextChangedEventArgs e) {}
     }
-
 }

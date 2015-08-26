@@ -12,12 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "TestSieciKlient\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common Files\Common.csproj", "{EE00FF17-B824-4150-A0DB-ABF8B7DD3522}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSieciKlientTests", "TestSieciKlientTests\TestSieciKlientTests.csproj", "{0B0EAE4C-CA5A-4E97-98E6-E051DEAAEBCF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EE00FF17-B824-4150-A0DB-ABF8B7DD3522} = {EE00FF17-B824-4150-A0DB-ABF8B7DD3522}
-		{772344D1-1ED9-4A56-9455-EB0B41A4E005} = {772344D1-1ED9-4A56-9455-EB0B41A4E005}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,10 +30,6 @@ Global
 		{EE00FF17-B824-4150-A0DB-ABF8B7DD3522}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE00FF17-B824-4150-A0DB-ABF8B7DD3522}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE00FF17-B824-4150-A0DB-ABF8B7DD3522}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B0EAE4C-CA5A-4E97-98E6-E051DEAAEBCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B0EAE4C-CA5A-4E97-98E6-E051DEAAEBCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B0EAE4C-CA5A-4E97-98E6-E051DEAAEBCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B0EAE4C-CA5A-4E97-98E6-E051DEAAEBCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

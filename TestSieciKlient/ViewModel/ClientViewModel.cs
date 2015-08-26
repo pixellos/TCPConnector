@@ -3,7 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using TestSieciKlient.Model;
-using Common_Files;
+using Common;
 
 namespace TestSieciKlient.ViewModel
 {     
@@ -26,9 +26,7 @@ namespace TestSieciKlient.ViewModel
             backgroundHelper = new BackgroundConnectionHelper(new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
         }
 
-        internal void SendText_Changed(object sender) { netClient.SendText_Changed(sender); }
-
-       
+        public bool? IsConnected()  { return netClient.IsConnected(); }
 
         public void SetStatusLabel(Label statusLabel) { this.statusLabel = statusLabel; }   
             
@@ -51,14 +49,13 @@ namespace TestSieciKlient.ViewModel
             statusLabel.Content = statusString;
             if (reciveString != null)
             {
-
-                if (CommandControler.Decode(reciveString) != Commands.DONOTDISPLAY)
-                {
-                    recivedTextLabel.Content = CommandControler.Decode(reciveString);
-                }
-                else recivedTextLabel.Content = recivedTextLabel.Content;
+               recivedTextLabel.Content = CommandControler.Decode(reciveString);
             }
-            
+            var Reference = sender as BackgroundWorker;
+            if (IsConnected().Value.Equals(true))
+            {
+                Reference.RunWorkerAsync();
+            }
         }
     }
 }
