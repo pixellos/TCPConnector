@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TestSieci"
         xmlns:vm="clr-namespace:TestSieci.ViewModel"
         mc:Ignorable="d"
-        Title="Server MVVM V0.2" Height="142.667" Width="374.566">
+        Title="Server MVVM V0.5" Height="142.667" Width="374.566">
     <Window.DataContext>
         <vm:ServerViewModel/>
     </Window.DataContext>
@@ -23,7 +23,7 @@
         <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="20" Margin="38,11,0,0" TextWrapping="Wrap" Text="{Binding IP}" VerticalAlignment="Top" Width="77" IsEnabled="False"/>
         <Label x:Name="label1" Content="Port:" HorizontalAlignment="Left" Margin="135,7,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.14,-0.526" Height="27"/>
         <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{Binding Port}" VerticalAlignment="Top" Width="53" Margin="174,11,0,0"/>
-        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="23" Margin="10,79,0,0" TextWrapping="Wrap" Text="{Binding RecivedText}" VerticalAlignment="Top" Width="341" IsEnabled="False"/>
+        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="23" Margin="10,79,0,0" TextWrapping="Wrap" Text="{Binding RecivedText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="341" IsEnabled="False"/>
 
     </Grid>
 </Window>

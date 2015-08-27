@@ -39,8 +39,14 @@ namespace Common
         {
             Commands.CommandBind.Add(":ES", EmptyString);
             Commands.CommandBind.Add(":AYT?", EmptyString);
+            Commands.CommandBind.Add(":MBShow", MessangeBoxShow);
         }
 
         string EmptyString(string text) { return ""; }
+        string MessangeBoxShow(string text)
+        {
+            MessageBox.Show("Rozpoznano komendę :MBShow, wyświetliłem się :D");
+            return "";
+        }
     }
 }

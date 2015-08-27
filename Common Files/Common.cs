@@ -19,15 +19,14 @@ namespace Common
         protected BinaryReader BinaryReader { get; private set; }
         protected BinaryWriter BinaryWriter { get; private set; }
 
-        public Comunicator(Stream IOStream) { ChangeParametrs(IOStream); }
-
-        public void ChangeParametrs(Stream IOStream)
+        public Comunicator(Stream IOStream)
         {
             newStream = IOStream;
             BinaryWriter = new BinaryWriter(newStream);
             BinaryReader = new BinaryReader(newStream);
         }
 
+       
         public bool IsStreamDescribed()
         {
             if (newStream == null)
@@ -82,6 +81,7 @@ namespace Common
             this._Ip = ip;
             this._Port = port;
             client = new TcpClient();
+            
         }
 
         public string ReadText()
@@ -113,7 +113,7 @@ namespace Common
                 return false;
             else
             {
-                _comunicator.SendText(":AYT?");///Send command :AreYouThere, beacuse connected have Conection status equals connection stauts  during last IO Operation https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.connected.aspx
+                //_comunicator.SendText(":AYT?");///Send command :AreYouThere, beacuse connected have Conection status equals connection stauts  during last IO Operation https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.connected.aspx
                 return client.Connected;
             }
         }

@@ -46,6 +46,18 @@ namespace TestSieciKlient.ViewModel
             }
         }
 
+        string _textToSend = "Write There:";
+        public string TextToSend
+        {
+            get { return _textToSend; }
+            set
+            {
+                _textToSend = value;
+                netClient.SendText(_textToSend);
+                RaisePropertyChanged("TextToSend");
+            }
+        }
+
         string _IP = "10.10.12.227";
         public string IP
         {
@@ -97,8 +109,8 @@ namespace TestSieciKlient.ViewModel
         {
             netClient.Dispose();
             netClient = new NetClient(_IP, _Port);
-            if (netClient.Connect()&&_backgroundHelper.IsReady)
-                _backgroundHelper.Start();
+            netClient.Connect();
+            _backgroundHelper.Start();
             RaisePropertyChanged("Connection");
         }
 

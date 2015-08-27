@@ -50,14 +50,14 @@ namespace TestSieci.ViewModel
             get { return _textToSend; }
             set
             {
-                _textToSend = value;
                 RaisePropertyChanged("IsConnectedProperty");
+                _textToSend = value;
                 _TCPServer.SendText(_textToSend);
-        
                 RaisePropertyChanged("TextToSend");
             }
         }
 
+        string _asyncRecivedText;
         string _RecivedText = "Recived Message";
         public string RecivedText
         {
@@ -96,12 +96,21 @@ namespace TestSieci.ViewModel
         #region BackgroundHelper  methods
         private void AsyncOperations(object sender, DoWorkEventArgs e)
         {
-            _RecivedText = _Commands.Decode(_TCPServer.ReadText());
+            _asyncRecivedText = _TCPServer.ReadText();
         }
 
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
-            RecivedText = _RecivedText;
+            if (_asyncRecivedText != null)
+            {
+                RecivedText = _Commands.Decode(_asyncRecivedText);
+                RaisePropertyChanged("RecivedText");
+            }
+            var Reference = sender as BackgroundWorker;
+            if (_TCPServer.IsConnected())
+            {
+                Reference.RunWorkerAsync();
+            }
         }
         #endregion
 
@@ -121,8 +130,8 @@ namespace TestSieci.ViewModel
             _TCPServer.Dispose();
             _TCPServer = new TCPServer(_Ip, _Port);
             _TCPServer.StartServer();
-            RaisePropertyChanged("IsConnectedProperty");
             _BackgroundHelper.Start();
+            RaisePropertyChanged("IsConnectedProperty");
         }
     }
 }
