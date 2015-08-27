@@ -6,14 +6,23 @@
         xmlns:local="clr-namespace:TestSieci"
         xmlns:vm="clr-namespace:TestSieci.ViewModel"
         mc:Ignorable="d"
-        Title="Server MVVM 0.1" Height="80" Width="316">
+        Title="Server MVVM V0.2" Height="112.667" Width="374.566">
     <Window.DataContext>
         <vm:ServerViewModel/>
     </Window.DataContext>
-    
+
     <Grid>
-        <RadioButton x:Name="radioButton" Command="{Binding TryToStartServer}"  Content="{Binding IsConnectedProperty, UpdateSourceTrigger=PropertyChanged}" Margin="196,15,6,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Path=TextToSend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" Width="181"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="10,43,0,0" TextWrapping="Wrap" Text="{Binding Path=TextToSend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" Width="341"/>
+        <Button x:Name="button" Content="Start Server" HorizontalAlignment="Left" Margin="244,10,0,0" VerticalAlignment="Top" Width="75" Background="{x:Null}" Command="{Binding TryToStartServer, Mode=OneWay}" Height="24"/>
+        <RadioButton x:Name="radioButton" IsChecked="{Binding IsConnectedProperty}" HorizontalAlignment="Left" Margin="336,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0" Width="15" Focusable="False" IsEnabled="False" Height="14">
+            <RadioButton.Effect>
+                <BlurEffect RenderingBias="Quality" KernelType="Box" Radius="2"/>
+            </RadioButton.Effect>
+        </RadioButton>
+        <Label x:Name="label" Content="IP:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,7,0,0"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="20" Margin="38,11,0,0" TextWrapping="Wrap" Text="{Binding IP}" VerticalAlignment="Top" Width="77" IsEnabled="False"/>
+        <Label x:Name="label1" Content="Port:" HorizontalAlignment="Left" Margin="135,7,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.14,-0.526" Height="27"/>
+        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{Binding Port}" VerticalAlignment="Top" Width="53" Margin="174,11,0,0"/>
 
     </Grid>
 </Window>

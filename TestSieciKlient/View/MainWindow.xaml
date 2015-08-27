@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="ConnectB" Command="{Binding ConnectClick,UpdateSourceTrigger=PropertyChanged}" Content="Connect" HorizontalAlignment="Left" Margin="326,15,0,0" VerticalAlignment="Top" Width="75" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" Height="22" Background="{x:Null}" ClickMode="Press"/>
         <Label x:Name="label" Content="{Binding RecivedText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="15,56,0,0" VerticalAlignment="Top" Width="415" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" Background="#00000000" Height="28"/>
-        <RadioButton x:Name="radioButton" IsChecked="{Binding Connection, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="415,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0" Width="15" Focusable="False" IsEnabled="False" Height="14">
+        <RadioButton x:Name="radioButton" IsChecked="{Binding Connection, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="415,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0" Width="15" Focusable="False" IsEnabled="False" Height="14">
             <RadioButton.Effect>
                 <BlurEffect RenderingBias="Quality" KernelType="Box" Radius="2"/>
             </RadioButton.Effect>

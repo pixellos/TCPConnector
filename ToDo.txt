@@ -2,5 +2,5 @@
 SERVER/CLIENT MVVM v0.1 - uncompleted core + beggining with MVVM
 
 Client v0.2 - Removed bugs, Added ip field and port to client, Code is now more "Object", Fixed a few bugs
-
+Server v0.2 - Added Ip, Port textbox, changed Radio to Button, added connection indicator
 

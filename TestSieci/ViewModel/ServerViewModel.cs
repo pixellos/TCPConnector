@@ -72,6 +72,16 @@ namespace TestSieci.ViewModel
             set { _Port = value;}
         }
 
+        public string IP
+        {
+            get { return _Ip; }
+            set
+            {
+                _Ip = value;
+                RaisePropertyChanged("IP");
+            }
+        }
+
         public void GetConnection()
         {
             _TCPServer.StartServer();
