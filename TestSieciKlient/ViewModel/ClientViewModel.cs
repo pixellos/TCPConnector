@@ -16,14 +16,10 @@ namespace TestSieciKlient.ViewModel
         NetClient netClient;
         Commands CommandControler;
         BackgroundConnectionHelper _backgroundHelper;
-        CommandAction _ConnectClick;
-        string _asyncRecivedText;
-        bool _asyncConnection;
-        #endregion
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string _RecivedText;
+        string _asyncRecivedText;
+        string _RecivedText;
         public string RecivedText
         {
             get
@@ -38,7 +34,8 @@ namespace TestSieciKlient.ViewModel
             }
         }
 
-        private bool _Connection;
+        bool _asyncConnection;
+        bool _Connection;
         public bool Connection
         {
             get { return netClient.IsConnected(); }
@@ -71,11 +68,13 @@ namespace TestSieciKlient.ViewModel
             }
         }
 
+        CommandAction _ConnectClick;
         public ICommand ConnectClick
         {
             get { return _ConnectClick; }
             set { RaisePropertyChanged("ConnectClick"); }
         }
+        #endregion
 
         public ClientViewModel()
         {

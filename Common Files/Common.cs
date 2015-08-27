@@ -75,7 +75,7 @@ namespace Common
         public TcpClient client { get; protected set; }
         protected string _Ip;
         protected int _Port;
-        protected Comunicator comunicator { get; set; }
+        protected Comunicator _comunicator { get; set; }
 
         public Connector(string ip, int port)
         {
@@ -86,7 +86,7 @@ namespace Common
 
         public string ReadText()
         {
-            return comunicator.ReadText();
+            return _comunicator.ReadText();
         }
 
         public void SendText(string text)
@@ -98,7 +98,7 @@ namespace Common
                     if (text == null)
                         text = ":ES";
 
-                    comunicator.SendText(text);
+                    _comunicator.SendText(text);
                 }
                 catch (IOException)
                 {
@@ -109,11 +109,11 @@ namespace Common
 
         public bool IsConnected()
         {
-            if (client == null || comunicator == null)
+            if (client == null || _comunicator == null)
                 return false;
             else
             {
-                comunicator.SendText(":AYT?");///Send command :AreYouThere, beacuse connected have Conection status equals connection stauts  during last IO Operation https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.connected.aspx
+                _comunicator.SendText(":AYT?");///Send command :AreYouThere, beacuse connected have Conection status equals connection stauts  during last IO Operation https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.connected.aspx
                 return client.Connected;
             }
         }
@@ -123,7 +123,7 @@ namespace Common
             try
             {
                 client = new TcpClient(_Ip, _Port);
-                comunicator = new Comunicator(client.GetStream());
+                _comunicator = new Comunicator(client.GetStream());
             }
             catch (Exception ex)
             {
@@ -135,8 +135,8 @@ namespace Common
 
         public void Dispose()
         {
-            if (comunicator != null)
-                comunicator.Dispose();
+            if (_comunicator != null)
+                _comunicator.Dispose();
             client.Close();
         }
     }

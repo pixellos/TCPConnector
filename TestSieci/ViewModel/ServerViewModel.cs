@@ -1,26 +1,71 @@
 ﻿using System.Windows.Input;
 using System.ComponentModel;
 using TestSieci.Model;
+using Common;
 
 namespace TestSieci.ViewModel
 {
     public class ServerViewModel : INotifyPropertyChanged
     {
-        string _Ip = "10.10.12.227";
-        int _Port = 1024;
+        #region properties
         TCPServer _TCPServer;
-        string _textToSend;
-        string _textStatus;
-
+        Commands _Commands;
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void RaisePropertyChanged(string propertyName)
+        int _Port = 1024;
+        public int Port
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
+            get { return _Port; }
+            set
             {
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                _Port = value;
+                RaisePropertyChanged("Port");
+            }
+        }
+
+        string _Ip = "10.10.12.227";
+        public string IP
+        {
+            get { return _Ip; }
+            set
+            {
+                _Ip = value;
+                RaisePropertyChanged("IP");
+            }
+        }
+
+        public bool IsConnectedProperty
+        {
+            get { return _TCPServer.IsConnected(); }
+            set
+            {
+                RaisePropertyChanged("IsConnectedProperty");
+            }
+        }
+
+        string _textToSend = "Write There:";
+        public string TextToSend
+        {
+            get { return _textToSend; }
+            set
+            {
+                _textToSend = value;
+                RaisePropertyChanged("IsConnectedProperty");
+                _TCPServer.SendText(_textToSend);
+        
+                RaisePropertyChanged("TextToSend");
+            }
+        }
+
+        string _RecivedText = "Recived Message";
+        public string RecivedText
+        {
+            get { return _RecivedText; }
+            set
+            {
+                _RecivedText = value;
+                RaisePropertyChanged("RecivedText");
             }
         }
 
@@ -33,59 +78,51 @@ namespace TestSieci.ViewModel
                 return _TryToStartServer;
             }
         }
+        #endregion
+
+        BackgroundConnectionHelper _BackgroundHelper;
 
         public ServerViewModel()
         {
             _TCPServer = new TCPServer(_Ip, _Port);
-            _TryToStartServer = new Common.CommandAction(StartServer);
+            _TryToStartServer = new Common.CommandAction(GetConnection);
+            _BackgroundHelper = new BackgroundConnectionHelper(
+                new DoWorkEventHandler(AsyncOperations),
+                new RunWorkerCompletedEventHandler(UpdateGUI));
+            _Commands = new Commands();
+
         }
 
-        public void StartServer  ()
+        #region BackgroundHelper  methods
+        private void AsyncOperations(object sender, DoWorkEventArgs e)
         {
-            _TCPServer.StartServer();
+            _RecivedText = _Commands.Decode(_TCPServer.ReadText());
         }
 
-        public string TextToSend
+        private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
-            get { return _textToSend; }
-            set
+            RecivedText = _RecivedText;
+        }
+        #endregion
+
+        private void RaisePropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
             {
-                  _textToSend = value;
-                RaisePropertyChanged("IsConnectedProperty");
-                _TCPServer.SendText(_textToSend);
-                RaisePropertyChanged("TextToSend");
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
-        public bool IsConnectedProperty
-        {
-            get { return _TCPServer.IsConnected(); }
-            set
-            {                   
-                RaisePropertyChanged("IsConnectedProperty");
-            }
-        }
-
-        public int Port
-        {
-            get { return _Port; }
-            set { _Port = value;}
-        }
-
-        public string IP
-        {
-            get { return _Ip; }
-            set
-            {
-                _Ip = value;
-                RaisePropertyChanged("IP");
-            }
-        }
-
+        
         public void GetConnection()
         {
+            _TCPServer.Dispose();
+            _TCPServer = new TCPServer(_Ip, _Port);
             _TCPServer.StartServer();
-            _textStatus = _TCPServer.IsConnected().ToString();
+            RaisePropertyChanged("IsConnectedProperty");
+            _BackgroundHelper.Start();
         }
     }
 }
