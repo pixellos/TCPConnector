@@ -4,30 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSieciKlient"
+        xmlns:vs="clr-namespace:TestSieciKlient.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="176.816" Width="351.083">
-    <Grid>
-        <Label x:Name="isConnected" Content="IsConnected" HorizontalAlignment="Left" Margin="149,10,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="button" Content="Połącz&#xD;&#xA;" HorizontalAlignment="Left" Margin="238,10,0,0" VerticalAlignment="Top" Width="77" Click="button_Click" Height="26"/>
-        <Label x:Name="label1" Content="Połączenie nawiązane?&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134"/>
-        <Label x:Name="recivedText" Content="TEKSTODEBRANY&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Height="45" Width="305">
-            <Label.Background>
-                <RadialGradientBrush Opacity="0.3">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" Offset="0.102"/>
-                </RadialGradientBrush>
-            </Label.Background>
-            <Label.Effect>
-                <DropShadowEffect/>
-            </Label.Effect>
-        </Label>
-        <TextBox x:Name="textToSend" HorizontalAlignment="Left" Height="45" Margin="10,91,0,0" TextWrapping="Wrap" Text="Do Wysłania" VerticalAlignment="Top" Width="305" TextChanged="textToSend_TextChanged">
-            <TextBox.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF5AF92B" Offset="0"/>
-                    <GradientStop Color="#FFF5DCA6" Offset="0.823"/>
-                </LinearGradientBrush>
-            </TextBox.Background>
-        </TextBox>
+        Title="Client MVVM v0.2" Height="137.816" Width="450.083" Foreground="#FF2AF0F9">
+    <Window.DataContext>
+        <vs:ClientViewModel/>
+    </Window.DataContext>
+    <Grid Margin="0,0,2,7">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="ConnectB" Command="{Binding ConnectClick,UpdateSourceTrigger=PropertyChanged}" Content="Connect" HorizontalAlignment="Left" Margin="326,15,0,0" VerticalAlignment="Top" Width="75" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" Height="22" Background="{x:Null}" ClickMode="Press"/>
+        <Label x:Name="label" Content="{Binding RecivedText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="15,56,0,0" VerticalAlignment="Top" Width="415" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" Background="#00000000" Height="28"/>
+        <RadioButton x:Name="radioButton" IsChecked="{Binding Connection, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="415,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0" Width="15" Focusable="False" IsEnabled="False" Height="14">
+            <RadioButton.Effect>
+                <BlurEffect RenderingBias="Quality" KernelType="Box" Radius="2"/>
+            </RadioButton.Effect>
+        </RadioButton>
+        <Label x:Name="label1" Content="IP Adress:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="76,14,0,0" TextWrapping="Wrap" Text="{Binding IP}" VerticalAlignment="Top" Width="120" Visibility="{Binding IsExpanded, ElementName=expander}"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="270,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding Port}"/>
+        <Label x:Name="label2" Content="Port:" HorizontalAlignment="Left" Margin="212,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1,0.115"/>
     </Grid>
 </Window>

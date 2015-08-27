@@ -3,56 +3,121 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using TestSieciKlient.Model;
-using Common_Files;
+using System.Windows.Input;
+using System.IO;
 
-namespace TestSieciKlient.ViewModel
+using Common;
+
+namespace TestSieciKlient.ViewModel 
 {     
-    class ClientViewModel
+    class ClientViewModel  : INotifyPropertyChanged
     {
-        string _IP = "127.0.0.1";
-        int _PORT = 1024;
+        #region Properties
         NetClient netClient;
         Commands CommandControler;
-        private BackgroundConnectionHelper backgroundHelper;
-        private string statusString, reciveString;
-        Label statusLabel, recivedTextLabel;
+        BackgroundConnectionHelper _backgroundHelper;
+        CommandAction _ConnectClick;
+        string _asyncRecivedText;
+        bool _asyncConnection;
+        #endregion
 
-        public ClientViewModel(Label statusLabel, Label recivedTextLabel)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private string _RecivedText;
+        public string RecivedText
         {
-            netClient = new NetClient(_IP, _PORT);
-            SetStatusLabel(statusLabel);
-            SetRecivedLabel(recivedTextLabel);
-            CommandControler = new Commands();
-            backgroundHelper = new BackgroundConnectionHelper(new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
+            get
+            {
+                return _RecivedText;
+            }
+            set
+            {
+
+                _RecivedText = value;
+                RaisePropertyChanged("RecivedText");
+            }
         }
 
-        public bool? IsConnected()  { return netClient.IsConnected(); }
-
-        public void SetStatusLabel(Label statusLabel) { this.statusLabel = statusLabel; }   
-            
-        public void SetRecivedLabel(Label recivedTextLabel) { this.recivedTextLabel = recivedTextLabel; }
-        
-        public void StartClientClick(object sender, RoutedEventArgs e)
+        private bool _Connection;
+        public bool Connection
         {
-            if (netClient.Connect())
-                backgroundHelper.Start();
+            get { return netClient.IsConnected(); }
+            set
+            {
+                _Connection = value;
+                RaisePropertyChanged("Connection");
+            }
+        }
+
+        string _IP = "10.10.12.227";
+        public string IP
+        {
+            get { return _IP; }
+            set
+            {
+                _IP = value;
+                RaisePropertyChanged("IP");
+            }
+        }
+
+        int _Port = 1024;
+        public int Port
+        {
+            get { return _Port; }
+            set
+            {
+                _Port = value;
+                RaisePropertyChanged("Port");
+            }
+        }
+
+        public ICommand ConnectClick
+        {
+            get { return _ConnectClick; }
+            set { RaisePropertyChanged("ConnectClick"); }
+        }
+
+        public ClientViewModel()
+        {
+            netClient = new NetClient(_IP, _Port);
+            CommandControler = new Commands();
+            _backgroundHelper = new BackgroundConnectionHelper(new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
+            _ConnectClick = new CommandAction(StartClientClick);
+        }
+
+        private void RaisePropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public void StartClientClick()
+        {
+            netClient.Dispose();
+            netClient = new NetClient(_IP, _Port);
+            if (netClient.Connect()&&_backgroundHelper.IsReady)
+                _backgroundHelper.Start();
+            RaisePropertyChanged("Connection");
         }
 
         private void OnCallBack(object sender, DoWorkEventArgs e)
         {
-            reciveString = netClient.ReadText();
-            statusString = netClient.client.Connected.ToString();
+            _asyncRecivedText = netClient.ReadText();
+            _asyncConnection = netClient.IsConnected();
         }
 
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
-            statusLabel.Content = statusString;
-            if (reciveString != null)
+            Connection = _asyncConnection;            
+            if (_asyncRecivedText != null)
             {
-               recivedTextLabel.Content = CommandControler.Decode(reciveString);
+                RecivedText = CommandControler.Decode(_asyncRecivedText);
             }
             var Reference = sender as BackgroundWorker;
-            if (IsConnected().Value.Equals(true))
+            if (netClient.IsConnected().Equals(true))
             {
                 Reference.RunWorkerAsync();
             }

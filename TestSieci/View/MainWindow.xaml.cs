@@ -10,35 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Net.Sockets;
-using System.Net;
-using System.IO;
-using TestSieci;
-using TestSieci.Model;
-using TestSieci.ViewModel;
 
-namespace TestSieci
+namespace Server.View
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
-        ServerViewModel serverViewModel;
         public MainWindow()
         {
             InitializeComponent();
-            serverViewModel = new ServerViewModel(isConnectedLabel);
-            this.Title = "Server v0.1";
         }
 
-        private void button_Click(object sender, RoutedEventArgs e) { serverViewModel.GetConnection(); }
-
-        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void checkBox_Checked(object sender, RoutedEventArgs e)
         {
-            if (serverViewModel!=null)
-            {
-                serverViewModel.SendText_Changed(sender);
-            }
+
         }
     }
 }

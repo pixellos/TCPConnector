@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-namespace Common_Files
+
+namespace Common
 {
     public class Commands
     {
@@ -19,7 +20,7 @@ namespace Common_Files
         
         public string Decode(string input)
         {
-            if (input.ToCharArray()[0] == ':')
+            if (input != String.Empty && input.ToCharArray()[0] == ':')
             {
                 if (CommandBind.ContainsKey(input))
                 {
@@ -37,7 +38,7 @@ namespace Common_Files
         public virtual void AddToDict()
         {
             Commands.CommandBind.Add(":ES", EmptyString);
-            Commands.CommandBind.Add(":AYT", null);
+            Commands.CommandBind.Add(":AYT?", EmptyString);
         }
 
         string EmptyString(string text) { return ""; }
