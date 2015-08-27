@@ -47,8 +47,8 @@ namespace Common
             {
                 backgroundWorker.RunWorkerAsync();
             }
-            
-           
+
+
         }
 
         public void Stop() { backgroundWorker.CancelAsync(); }
