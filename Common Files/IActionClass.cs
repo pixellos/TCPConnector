@@ -27,6 +27,7 @@ namespace Common
         public void Execute(object parameter)
         {
             _action();
+            
         }
     }
 }
