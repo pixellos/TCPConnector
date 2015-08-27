@@ -12,33 +12,22 @@ namespace TestSieci.Model
 {
     sealed class TCPServer : Connector
     {
-        TcpListener listener { get; set; }
+        TcpListener _listener { get; set; }
 
-        public TCPServer(string iP, int port):base(iP,port) {}
-
+        public TCPServer(string iP, int port) : base(iP, port) { }
 
         public bool IsActive() { return (client != null); }
 
-        public bool StartServer()
+        public void StartServer()
         {
-            if (listener != null)
+            if (_listener != null)
             {
-                listener.Stop();
+                _listener.Stop();
             }
-            listener = new TcpListener(IPAddress.Parse(_Ip), _Port);
-            listener.Start();
-            client = listener.AcceptTcpClient();
-            if (comunicator == null)
-            {
-                comunicator = new Comunicator(client.GetStream());
-            }
-            else comunicator.ChangeParametrs(client.GetStream());
-            if (listener.Pending())     //If someone connected with server
-            {
-                return true;
-            }
-            else return false;
+            _listener = new TcpListener(IPAddress.Parse(_Ip), _Port);
+            _listener.Start();
+            client = _listener.AcceptTcpClient();
+            _comunicator = new Comunicator(client.GetStream());
         }
-
     }
 }
