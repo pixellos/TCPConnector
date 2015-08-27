@@ -12,54 +12,94 @@ namespace TestSieciKlient.ViewModel
 {     
     class ClientViewModel  : INotifyPropertyChanged
     {
-        string _IP = "127.0.0.1";
-        int _PORT = 1024;
+        #region Properties
         NetClient netClient;
         Commands CommandControler;
-        private BackgroundConnectionHelper backgroundHelper;
+        BackgroundConnectionHelper _backgroundHelper;
+        CommandAction _ConnectClick;
+        string _asyncRecivedText;
+        bool _asyncConnection;
+        #endregion
 
-        private string _asyncRecivedText;
-        private bool _asyncConnection;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public ICommand ConnectClick
+        private string _RecivedText;
+        public string RecivedText
         {
             get
             {
-                return _ConnectClick;
+                return _RecivedText;
             }
             set
             {
-                RaisePropertyChanged("ConnectClick");
+
+                _RecivedText = value;
+                RaisePropertyChanged("RecivedText");
             }
         }
-        private CommandAction _ConnectClick;
-    
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private bool _Connection;
+        public bool Connection
+        {
+            get { return netClient.IsConnected(); }
+            set
+            {
+                _Connection = value;
+                RaisePropertyChanged("Connection");
+            }
+        }
+
+        string _IP = "10.10.12.227";
+        public string IP
+        {
+            get { return _IP; }
+            set
+            {
+                _IP = value;
+                RaisePropertyChanged("IP");
+            }
+        }
+
+        int _Port = 1024;
+        public int Port
+        {
+            get { return _Port; }
+            set
+            {
+                _Port = value;
+                RaisePropertyChanged("Port");
+            }
+        }
+
+        public ICommand ConnectClick
+        {
+            get { return _ConnectClick; }
+            set { RaisePropertyChanged("ConnectClick"); }
+        }
+
+        public ClientViewModel()
+        {
+            netClient = new NetClient(_IP, _Port);
+            CommandControler = new Commands();
+            _backgroundHelper = new BackgroundConnectionHelper(new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
+            _ConnectClick = new CommandAction(StartClientClick);
+        }
 
         private void RaisePropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
-
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
-        public ClientViewModel()
-        {
-            netClient = new NetClient(_IP, _PORT);
-            CommandControler = new Commands();
-            backgroundHelper = new BackgroundConnectionHelper(new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
-            
-            _ConnectClick = new CommandAction(StartClientClick);
-        }
-
         public void StartClientClick()
         {
-            if (netClient.Connect()&&backgroundHelper.IsReady)
-                backgroundHelper.Start();
+            netClient.Dispose();
+            netClient = new NetClient(_IP, _Port);
+            if (netClient.Connect()&&_backgroundHelper.IsReady)
+                _backgroundHelper.Start();
             RaisePropertyChanged("Connection");
         }
 
@@ -82,32 +122,5 @@ namespace TestSieciKlient.ViewModel
                 Reference.RunWorkerAsync();
             }
         }
-
-        private string _RecivedText;
-        public string RecivedText
-        {
-            get
-            {
-                return _RecivedText;
-            }
-            set
-            {
-                
-                _RecivedText = value;
-                RaisePropertyChanged("RecivedText");
-            }
-        }
-
-        private bool _Connection;
-        public  bool Connection
-        {
-            get {  return netClient.IsConnected(); }
-            set
-            {
-                _Connection = value;
-                RaisePropertyChanged("Connection");
-            }
-        }
-
     }
 }

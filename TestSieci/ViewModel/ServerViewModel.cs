@@ -1,36 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Net.Sockets;
-using System.Net;
-using System.IO;
+﻿using System.Windows.Input;
 using System.ComponentModel;
 using TestSieci.Model;
 
-
-
 namespace TestSieci.ViewModel
 {
-   
- 
     public class ServerViewModel : INotifyPropertyChanged
     {
-        string ip = "127.0.0.1";
-        int port = 1024;
-        TCPServer TCPServer;
-        private string _textToSend;
-        private string _textStatus;
-        
+        string _Ip = "10.10.12.227";
+        int _Port = 1024;
+        TCPServer _TCPServer;
+        string _textToSend;
+        string _textStatus;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -44,9 +24,9 @@ namespace TestSieci.ViewModel
             }
         }
 
+        Common.CommandAction _TryToStartServer;
         public ICommand  TryToStartServer
         {
-            internal set { }
             get
             {
                 RaisePropertyChanged("IsConnectedProperty");
@@ -54,52 +34,48 @@ namespace TestSieci.ViewModel
             }
         }
 
-        Common.CommandAction _TryToStartServer;
-
-
         public ServerViewModel()
         {
-            TCPServer = new TCPServer(ip, port);
-
+            _TCPServer = new TCPServer(_Ip, _Port);
             _TryToStartServer = new Common.CommandAction(StartServer);
-            
         }
 
         public void StartServer  ()
         {
-            TCPServer.StartServer();
+            _TCPServer.StartServer();
         }
-        
 
         public string TextToSend
         {
             get { return _textToSend; }
             set
             {
-                _textToSend = value;
+                  _textToSend = value;
                 RaisePropertyChanged("IsConnectedProperty");
-                TCPServer.SendText(_textToSend);
+                _TCPServer.SendText(_textToSend);
                 RaisePropertyChanged("TextToSend");
-               
             }
         }
 
         public bool IsConnectedProperty
         {
-            get { return TCPServer.IsConnected(); }
+            get { return _TCPServer.IsConnected(); }
             set
             {                   
                 RaisePropertyChanged("IsConnectedProperty");
             }
         }
 
-        
+        public int Port
+        {
+            get { return _Port; }
+            set { _Port = value;}
+        }
 
         public void GetConnection()
         {
-            TCPServer.StartServer();
-            _textStatus = TCPServer.IsConnected().ToString();
+            _TCPServer.StartServer();
+            _textStatus = _TCPServer.IsConnected().ToString();
         }
-                                                                                                               
     }
 }

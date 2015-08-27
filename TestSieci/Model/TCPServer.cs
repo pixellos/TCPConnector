@@ -25,7 +25,7 @@ namespace TestSieci.Model
             {
                 listener.Stop();
             }
-            listener = new TcpListener(IPAddress.Parse(ip), port);
+            listener = new TcpListener(IPAddress.Parse(_Ip), _Port);
             listener.Start();
             client = listener.AcceptTcpClient();
             if (comunicator == null)

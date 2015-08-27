@@ -11,6 +11,7 @@ namespace Common
     public class CommandAction : ICommand
     {
         public event EventHandler CanExecuteChanged;
+
         private Action _action;
 
         public CommandAction(Action SomeAction)

@@ -41,7 +41,6 @@ namespace Common
         {
             try
             {
-
                 return BinaryReader.ReadString();
             }
             catch (IOException exception)
@@ -61,9 +60,7 @@ namespace Common
             {
                 MessageBox.Show("No connection, cannot write into stream: (Extended)\n" + exception.Message);
             }
-            
         }
-
 
         public void Dispose()
         {
@@ -71,28 +68,20 @@ namespace Common
             BinaryReader.Close();
             BinaryWriter.Close();
         }
-
     }
 
-    public abstract partial class Connector
+    public abstract partial class Connector  : IDisposable
     {
         public TcpClient client { get; protected set; }
-        protected string ip;
-        protected int port;
+        protected string _Ip;
+        protected int _Port;
         protected Comunicator comunicator { get; set; }
 
         public Connector(string ip, int port)
         {
-            ChangeParametrs(ip, port);
+            this._Ip = ip;
+            this._Port = port;
             client = new TcpClient();
-        }
-        
-        /// <param name="ip">IP adress, format xxx.xxx.xxx.xxx</param>
-        /// <param name="port"></param>
-        public void ChangeParametrs(string ip, int port)
-        {
-            this.ip = ip;
-            this.port = port;
         }
 
         public string ReadText()
@@ -107,14 +96,13 @@ namespace Common
                 try
                 {
                     if (text == null)
-                    {
                         text = ":ES";
-                    }
+
                     comunicator.SendText(text);
                 }
                 catch (IOException)
                 {
-                    MessageBox.Show("Połączenie zostało przerwane, kliknij połącz aby połączyć", "Oops");
+                    MessageBox.Show("Connection was incidentaly closed", "Oops");
                 }
             }
         }
@@ -122,23 +110,19 @@ namespace Common
         public bool IsConnected()
         {
             if (client == null || comunicator == null)
-            {
                 return false;
-            }
             else
             {
-                comunicator.SendText(":AYT?");///Send command :AreYouThere, beacuse connected have Conection status to last IO Operation https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.connected.aspx
+                comunicator.SendText(":AYT?");///Send command :AreYouThere, beacuse connected have Conection status equals connection stauts  during last IO Operation https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.connected.aspx
                 return client.Connected;
             }
         }
-
-
 
         public bool Connect()
         {
             try
             {
-                client = new TcpClient(ip, port);
+                client = new TcpClient(_Ip, _Port);
                 comunicator = new Comunicator(client.GetStream());
             }
             catch (Exception ex)
@@ -149,7 +133,12 @@ namespace Common
             return true;
         }
 
-       
+        public void Dispose()
+        {
+            if (comunicator != null)
+                comunicator.Dispose();
+            client.Close();
+        }
     }
 }
                                          

@@ -6,21 +6,25 @@
         xmlns:local="clr-namespace:TestSieciKlient"
         xmlns:vs="clr-namespace:TestSieciKlient.ViewModel"
         mc:Ignorable="d"
-        Title="Client MVVM v0.1" Height="83.816" Width="382.083" Foreground="#FF2AF0F9">
+        Title="Client MVVM v0.2" Height="137.816" Width="450.083" Foreground="#FF2AF0F9">
     <Window.DataContext>
         <vs:ClientViewModel/>
     </Window.DataContext>
-    <Grid>
+    <Grid Margin="0,0,2,7">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="263*"/>
-            <ColumnDefinition Width="111*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="ConnectB" Command="{Binding ConnectClick,UpdateSourceTrigger=PropertyChanged}" Content="Connect" HorizontalAlignment="Left" Margin="26,10,0,0" VerticalAlignment="Top" Width="75" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" Height="28" Background="{x:Null}" Grid.Column="1"/>
-        <Label x:Name="label" Content="{Binding RecivedText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="53,10,0,0" VerticalAlignment="Top" Width="231" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" Background="#00000000" Height="28" Grid.ColumnSpan="2"/>
-        <RadioButton x:Name="radioButton" IsChecked="{Binding Connection, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.7,-0.067" Width="15" Focusable="False" IsEnabled="False">
+        <Button x:Name="ConnectB" Command="{Binding ConnectClick,UpdateSourceTrigger=PropertyChanged}" Content="Connect" HorizontalAlignment="Left" Margin="326,15,0,0" VerticalAlignment="Top" Width="75" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" Height="22" Background="{x:Null}" ClickMode="Press"/>
+        <Label x:Name="label" Content="{Binding RecivedText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="15,56,0,0" VerticalAlignment="Top" Width="415" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" Background="#00000000" Height="28"/>
+        <RadioButton x:Name="radioButton" IsChecked="{Binding Connection, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="415,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0" Width="15" Focusable="False" IsEnabled="False" Height="14">
             <RadioButton.Effect>
                 <BlurEffect RenderingBias="Quality" KernelType="Box" Radius="2"/>
             </RadioButton.Effect>
         </RadioButton>
+        <Label x:Name="label1" Content="IP Adress:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="76,14,0,0" TextWrapping="Wrap" Text="{Binding IP}" VerticalAlignment="Top" Width="120" Visibility="{Binding IsExpanded, ElementName=expander}"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="270,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding Port}"/>
+        <Label x:Name="label2" Content="Port:" HorizontalAlignment="Left" Margin="212,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1,0.115"/>
     </Grid>
 </Window>

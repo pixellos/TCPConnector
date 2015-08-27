@@ -12,7 +12,7 @@
     </Window.DataContext>
     
     <Grid>
-        <CheckBox x:Name="checkBox" Command="{Binding TryToStartServer}"  Content="{Binding IsConnectedProperty, UpdateSourceTrigger=PropertyChanged}" Margin="196,15,6,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="radioButton" Command="{Binding TryToStartServer}"  Content="{Binding IsConnectedProperty, UpdateSourceTrigger=PropertyChanged}" Margin="196,15,6,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Path=TextToSend, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" Width="181"/>
 
     </Grid>
