@@ -58,7 +58,7 @@ namespace TestSieciKlient.ViewModel
             }
         }
 
-        string _IP = "172.0.0.1";
+        string _IP = "127.0.0.1";
         public string IP
         {
             get { return _IP; }

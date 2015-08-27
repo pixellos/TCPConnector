@@ -23,9 +23,8 @@ namespace TestSieci.Model
             if (_listener != null)
             {
                 _listener.Stop();
+                GC.Collect();
             }
-            
-            
             _listener = new TcpListener(IPAddress.Parse(_Ip), _Port);
             _listener.Start();
             client = _listener.AcceptTcpClient();

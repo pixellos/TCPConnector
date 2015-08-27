@@ -24,7 +24,7 @@ namespace TestSieci.ViewModel
             }
         }
 
-        string _Ip = "172.0.0.1";
+        string _Ip = "127.0.0.1";
         public string IP
         {
             get { return _Ip; }
