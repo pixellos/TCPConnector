@@ -20,7 +20,7 @@
             </RadioButton.Effect>
         </RadioButton>
         <Label x:Name="label" Content="IP:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,7,0,0"/>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="20" Margin="53,11,0,0" TextWrapping="Wrap" Text="{Binding IP}" VerticalAlignment="Top" Width="77" IsEnabled="False"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="20" Margin="53,11,0,0" TextWrapping="Wrap" Text="{Binding IP}" VerticalAlignment="Top" Width="77"/>
         <Label x:Name="label1" Content="Port:" HorizontalAlignment="Left" Margin="135,7,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.14,-0.526" Height="27"/>
         <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="{Binding Port}" VerticalAlignment="Top" Width="53" Margin="174,11,0,0"/>
         <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="23" Margin="10,79,0,0" TextWrapping="Wrap" Text="{Binding RecivedText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="341" IsEnabled="False"/>
