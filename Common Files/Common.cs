@@ -13,62 +13,6 @@ using Common;
 
 namespace Common
 {
-    public class Comunicator : IDisposable
-    {
-        Stream newStream;
-        protected BinaryReader BinaryReader { get; private set; }
-        protected BinaryWriter BinaryWriter { get; private set; }
-
-        public Comunicator(Stream IOStream)
-        {
-            newStream = IOStream;
-            BinaryWriter = new BinaryWriter(newStream);
-            BinaryReader = new BinaryReader(newStream);
-        }
-
-       
-        public bool IsStreamDescribed()
-        {
-            if (newStream == null)
-            {
-                return false;
-            }
-            else return true;
-        }
-
-        public string ReadText()
-        {
-            try
-            {
-                return BinaryReader.ReadString();
-            }
-            catch (IOException exception)
-            {
-                MessageBox.Show("Cannot write into stream: (Extendend info) \n" + exception.Message);
-                return "!! NO CONNECTION !!";        
-            }
-
-        }
-
-        public void SendText(string text) {
-            try
-            {
-                BinaryWriter.Write(text);
-            }
-            catch (IOException exception)
-            {
-                MessageBox.Show("No connection, cannot write into stream: (Extended)\n" + exception.Message);
-            }
-        }
-
-        public void Dispose()
-        {
-            newStream.Close();
-            BinaryReader.Close();
-            BinaryWriter.Close();
-        }
-    }
-
     public abstract partial class Connector  : IDisposable
     {
         public TcpClient client { get; protected set; }
@@ -133,7 +77,7 @@ namespace Common
             return true;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             if (_comunicator != null)
                 _comunicator.Dispose();

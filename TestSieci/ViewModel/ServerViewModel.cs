@@ -5,7 +5,7 @@ using Common;
 
 namespace TestSieci.ViewModel
 {
-    public class ServerViewModel : INotifyPropertyChanged
+    sealed class ServerViewModel : INotifyPropertyChanged
     {
         #region properties
         TCPServer _TCPServer;
@@ -69,7 +69,7 @@ namespace TestSieci.ViewModel
             }
         }
 
-        Common.CommandAction _TryToStartServer;
+        CommandAction _TryToStartServer;
         public ICommand  TryToStartServer
         {
             get
@@ -85,7 +85,7 @@ namespace TestSieci.ViewModel
         public ServerViewModel()
         {
             _TCPServer = new TCPServer(_Ip, _Port);
-            _TryToStartServer = new Common.CommandAction(GetConnection);
+            _TryToStartServer = new CommandAction(GetConnection);
             _BackgroundHelper = new BackgroundConnectionHelper(
                 new DoWorkEventHandler(AsyncOperations),
                 new RunWorkerCompletedEventHandler(UpdateGUI));
@@ -101,16 +101,14 @@ namespace TestSieci.ViewModel
 
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
+            _TCPServer.AsyncWaitForClient();
             if (_asyncRecivedText != null)
             {
                 RecivedText = _Commands.Decode(_asyncRecivedText);
                 RaisePropertyChanged("RecivedText");
             }
             var Reference = sender as BackgroundWorker;
-            if (_TCPServer.IsConnected())
-            {
-                Reference.RunWorkerAsync();
-            }
+            Reference.RunWorkerAsync();
         }
         #endregion
 
@@ -118,19 +116,21 @@ namespace TestSieci.ViewModel
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 
+            _TCPServer.UIThreadSetClientIfPending();
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
         
         public void GetConnection()
         {
-            _TCPServer.Dispose();
-            _TCPServer = new TCPServer(_Ip, _Port);
-            _TCPServer.StartServer();
-            _BackgroundHelper.Start();
+            if (_TCPServer != null)
+            {
+                _TCPServer = new TCPServer(_Ip, _Port);
+                _TCPServer.StartServer();
+                _BackgroundHelper.Start();
+            }
             RaisePropertyChanged("IsConnectedProperty");
         }
     }

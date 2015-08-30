@@ -13,8 +13,8 @@ namespace TestSieciKlient.ViewModel
     class ClientViewModel  : INotifyPropertyChanged
     {
         #region Properties
-        NetClient netClient;
-        Commands CommandControler;
+        NetClient _netClient;
+        Commands _CommandControler;
         BackgroundConnectionHelper _backgroundHelper;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -28,7 +28,6 @@ namespace TestSieciKlient.ViewModel
             }
             set
             {
-
                 _RecivedText = value;
                 RaisePropertyChanged("RecivedText");
             }
@@ -38,7 +37,7 @@ namespace TestSieciKlient.ViewModel
         bool _Connection;
         public bool Connection
         {
-            get { return netClient.IsConnected(); }
+            get { return _netClient.IsConnected(); }
             set
             {
                 _Connection = value;
@@ -46,14 +45,14 @@ namespace TestSieciKlient.ViewModel
             }
         }
 
-        string _textToSend = "Write There:";
+        string _TextToSend = "Write There:";
         public string TextToSend
         {
-            get { return _textToSend; }
+            get { return _TextToSend; }
             set
             {
-                _textToSend = value;
-                netClient.SendText(_textToSend);
+                _TextToSend = value;
+                _netClient.SendText(_TextToSend);
                 RaisePropertyChanged("TextToSend");
             }
         }
@@ -90,8 +89,8 @@ namespace TestSieciKlient.ViewModel
 
         public ClientViewModel()
         {
-            netClient = new NetClient(_IP, _Port);
-            CommandControler = new Commands();
+            _netClient = new NetClient(_IP, _Port);
+            _CommandControler = new Commands();
             _backgroundHelper = new BackgroundConnectionHelper(new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
             _ConnectClick = new CommandAction(StartClientClick);
         }
@@ -107,17 +106,17 @@ namespace TestSieciKlient.ViewModel
 
         public void StartClientClick()
         {
-            netClient.Dispose();
-            netClient = new NetClient(_IP, _Port);
-            netClient.Connect();
+            _netClient.Dispose();
+            _netClient = new NetClient(_IP, _Port);
+            _netClient.Connect();
             _backgroundHelper.Start();
             RaisePropertyChanged("Connection");
         }
 
         private void OnCallBack(object sender, DoWorkEventArgs e)
         {
-            _asyncRecivedText = netClient.ReadText();
-            _asyncConnection = netClient.IsConnected();
+            _asyncRecivedText = _netClient.ReadText();
+            _asyncConnection = _netClient.IsConnected();
         }
 
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
@@ -125,10 +124,10 @@ namespace TestSieciKlient.ViewModel
             Connection = _asyncConnection;            
             if (_asyncRecivedText != null)
             {
-                RecivedText = CommandControler.Decode(_asyncRecivedText);
+                RecivedText = _CommandControler.Decode(_asyncRecivedText);
             }
             var Reference = sender as BackgroundWorker;
-            if (netClient.IsConnected().Equals(true))
+            if (_netClient.IsConnected().Equals(true))
             {
                 Reference.RunWorkerAsync();
             }

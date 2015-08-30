@@ -6,27 +6,34 @@
         xmlns:local="clr-namespace:TestSieciKlient"
         xmlns:vs="clr-namespace:TestSieciKlient.ViewModel"
         mc:Ignorable="d"
-        Title="Client MVVM v0.5" Height="170.174" Width="450.083" Foreground="#FF2AF0F9">
+        Title="Client MVVM v0.5" Height="170" Width="621" Foreground="#FF2AF0F9" SizeToContent="Manual" ResizeMode="NoResize" ShowInTaskbar="True">
     <Window.DataContext>
         <vs:ClientViewModel/>
     </Window.DataContext>
-    <Grid Margin="0,0,2,7">
+    <Grid Margin="0,0,0,7" HorizontalAlignment="Left" Width="431">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="69*"/>
-            <ColumnDefinition Width="151*"/>
-            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="ConnectB" Command="{Binding ConnectClick,UpdateSourceTrigger=PropertyChanged}" Content="Connect" HorizontalAlignment="Left" Margin="185,14,0,0" VerticalAlignment="Top" Width="75" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" Height="22" Background="{x:Null}" ClickMode="Press" Grid.Column="1"/>
-        <Label x:Name="label" Content="{Binding RecivedText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="15,56,0,48" Width="415" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" Background="#00000000" Grid.ColumnSpan="2"/>
-        <RadioButton x:Name="radioButton" IsChecked="{Binding Connection, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="277.163,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0" Width="15" Focusable="False" IsEnabled="False" Height="14" Grid.Column="1">
+        <Button x:Name="ConnectB" Command="{Binding ConnectClick,UpdateSourceTrigger=PropertyChanged}" Content="Connect" HorizontalAlignment="Left" Margin="334,14,0,0" VerticalAlignment="Top" Width="82" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" Height="22" Background="{x:Null}" ClickMode="Press"/>
+        <Label x:Name="label" Content="{Binding RecivedText, UpdateSourceTrigger=PropertyChanged}" Margin="15,56,15,0" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" Background="#00000000" Height="28" VerticalAlignment="Top"/>
+        <RadioButton  x:Name="radioButton" IsChecked="{Binding Connection, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="194,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0" Width="13" Focusable="False" IsEnabled="False" Height="11">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="2" ScaleX="2"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
             <RadioButton.Effect>
                 <BlurEffect RenderingBias="Quality" KernelType="Box" Radius="2"/>
             </RadioButton.Effect>
         </RadioButton>
-        <Label x:Name="label1" Content="IP Adress:" HorizontalAlignment="Left" Margin="10,10,0,96"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="76,14,0,95" TextWrapping="Wrap" Text="{Binding IP}" Width="120" Visibility="{Binding IsExpanded, ElementName=expander}" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="129,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding Port}" Grid.Column="1"/>
-        <Label x:Name="label2" Content="Port:" HorizontalAlignment="Left" Margin="78,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1,0.115" Grid.Column="1" Height="27"/>
-        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Margin="15,92,0,10" TextWrapping="Wrap" Text="{Binding TextToSend, UpdateSourceTrigger=PropertyChanged}" Width="415" Grid.ColumnSpan="2"/>
+        <Label x:Name="label1" Content="IP Adress:" Margin="10,10,0,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="61"/>
+        <TextBox x:Name="textBox" Margin="71,14,0,0" TextWrapping="Wrap" Text="{Binding IP}" Visibility="{Binding IsExpanded, ElementName=expander}" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="274,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding Port}"/>
+        <Label x:Name="label2" Content="Port:" HorizontalAlignment="Left" Margin="229,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1,0.115" Height="27" Width="34"/>
+        <TextBox x:Name="textBox2" Margin="15,92,15,0" TextWrapping="Wrap" Text="{Binding TextToSend, UpdateSourceTrigger=PropertyChanged}" Height="32" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="431,10,-177,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="177" Height="114"/>
     </Grid>
 </Window>
