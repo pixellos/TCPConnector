@@ -106,7 +106,7 @@ namespace TestSieci.ViewModel
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
             _TCPServer.UIThreadSetClientIfPending();
-            if (_asyncRecivedText != null && _asyncRecivedText !=":AYT?" )
+            if (_asyncRecivedText != null && _asyncRecivedText !=Commands.IsTherePartnerCommand )
             {
                 RecivedText = _Commands.Decode(_asyncRecivedText);
                 RaisePropertyChanged("RecivedText");

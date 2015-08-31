@@ -135,7 +135,7 @@ namespace TestSieciKlient.ViewModel
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
             Connection = _asyncConnection;            
-            if (_asyncRecivedText != null && _asyncRecivedText != ":AYT?")
+            if (_asyncRecivedText != null && _asyncRecivedText != Commands.IsTherePartnerCommand)
             {
                 RecivedText = _CommandControler.Decode(_asyncRecivedText);
             }

@@ -12,7 +12,7 @@ namespace TestSieci.Model
 {
     sealed class TCPServer : Connector
     {
-        public TcpListener _listener { get; set; }
+        public TcpListener _Listener { get; set; }
 
         bool _AsyncPending;
 
@@ -22,10 +22,10 @@ namespace TestSieci.Model
 
         public void StartServer()
         {
-            if (_listener == null)
+            if (_Listener == null)
             {
-                _listener = new TcpListener(IPAddress.Parse(_Ip), _Port);
-                _listener.Start();
+                _Listener = new TcpListener(IPAddress.Parse(_Ip), _Port);
+                _Listener.Start();
             }
             _comunicator = new Comunicator(null);
         }
@@ -35,7 +35,7 @@ namespace TestSieci.Model
         /// </summary>
         public void AsyncWaitForClient()
         {
-            if (_listener != null && _listener.Pending())
+            if (_Listener != null && _Listener.Pending())
             {
                 _AsyncPending = true;
             }
@@ -49,7 +49,7 @@ namespace TestSieci.Model
             bool _Pending = _AsyncPending;
             if (_Pending)
             {
-                Client = _listener.AcceptTcpClient();// Remember only last connection TODO: Make multiconnection posibility.
+                Client = _Listener.AcceptTcpClient();// Remember only last connection TODO: Make multiconnection posibility.
                 _comunicator = new Comunicator(Client.GetStream());
                 _AsyncPending = false;
             }
@@ -60,9 +60,9 @@ namespace TestSieci.Model
         /// </summary>
         public void WaitForClient()
         {
-            if (_listener != null && _listener.Pending())
+            if (_Listener != null && _Listener.Pending())
             {
-                Client = _listener.AcceptTcpClient();// Remember only last connection TODO: Make multiconnection posibility.
+                Client = _Listener.AcceptTcpClient();// Remember only last connection TODO: Make multiconnection posibility.
                 _comunicator = new Comunicator(Client.GetStream());
             }
         }
@@ -70,9 +70,9 @@ namespace TestSieci.Model
         public override void Dispose()
         {
             base.Dispose();
-            if (_listener !=null)
+            if (_Listener !=null)
             {
-                _listener.Stop();
+                _Listener.Stop();
             }
         }
     }

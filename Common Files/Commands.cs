@@ -9,6 +9,10 @@ namespace Common
 {
     public class Commands
     {
+        #region Definitions of commands
+        public const string StringIsEmptyCommand =":ES";
+        public const string IsTherePartnerCommand = ":AYT?";
+        #endregion
         const char StartCommandChar = ':';
         static Dictionary<string, Func<string,string>> _CommandBind = new Dictionary<string, Func<string,string>>();
         const string COMMANDFAILED = "##COMMAND???###";
@@ -42,8 +46,8 @@ namespace Common
         /// </summary>
         public virtual void AddToDict()
         {
-            Commands._CommandBind.Add(":ES", EmptyString);
-           // Commands.CommandBind.Add(":AYT?", ReturnLastText);
+            Commands._CommandBind.Add(Commands.StringIsEmptyCommand, EmptyString);
+            Commands._CommandBind.Add(Commands.IsTherePartnerCommand, ReturnLastText);
             Commands._CommandBind.Add(":MBShow", MessangeBoxShow);
         }
 

@@ -47,7 +47,7 @@ namespace Common
                 try
                 {
                     if (text == null)
-                        text = ":ES";
+                        text = Commands.StringIsEmptyCommand;
 
                     _comunicator.SendText(text);
                 }
@@ -64,7 +64,7 @@ namespace Common
                 return false;
             else
             {
-                //_comunicator.SendText(":AYT?");///Send command :AreYouThere, beacuse connected have Conection status equals connection stauts  during last IO Operation https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.connected.aspx
+                //_comunicator.SendText(Commands.IsTherePartnerCommand);///Send command :AreYouThere, beacuse connected have Conection status equals connection stauts  during last IO Operation https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.connected.aspx
                 return Client.Connected;
             }
         }
