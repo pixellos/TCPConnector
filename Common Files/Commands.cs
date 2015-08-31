@@ -12,6 +12,7 @@ namespace Common
         #region Definitions of commands
         public const string StringIsEmptyCommand =":ES";
         public const string IsTherePartnerCommand = ":AYT?";
+        public const string ShowMessangeBoxCommand = ":MBShow";
         #endregion
         const char StartCommandChar = ':';
         static Dictionary<string, Func<string,string>> _CommandBind = new Dictionary<string, Func<string,string>>();
@@ -48,7 +49,7 @@ namespace Common
         {
             Commands._CommandBind.Add(Commands.StringIsEmptyCommand, EmptyString);
             Commands._CommandBind.Add(Commands.IsTherePartnerCommand, ReturnLastText);
-            Commands._CommandBind.Add(":MBShow", MessangeBoxShow);
+            Commands._CommandBind.Add(Commands.ShowMessangeBoxCommand, MessangeBoxShow);
         }
 
         string EmptyString(string text) { return ""; }
