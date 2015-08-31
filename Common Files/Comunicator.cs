@@ -45,12 +45,12 @@ public class Comunicator : IDisposable
         }
         catch (IOException exception)
         {
-            MessageBox.Show("Cannot write into stream: (Extendend info) \n" + exception.Message);
+            Console.WriteLine("Cannot write into stream: (Extendend info) \n" + exception.Message);
             return "!! NO CONNECTION !!";
         }
-        catch (NullReferenceException )
+        catch (NullReferenceException exception )
         {
-            Console.WriteLine("Not Connected yet.");
+            MessageBox.Show("Reader object doesnt exist. Propably not Connected yet." + exception.Message);
             return "!! NO CONNECTION !!";
         }
     }
@@ -65,16 +65,27 @@ public class Comunicator : IDisposable
         {
             MessageBox.Show("No connection, cannot write into stream: (Extended)\n" + exception.Message);
         }
-        catch (NullReferenceException)
+        catch (NullReferenceException exception)
         {
-            Console.WriteLine("Not Connected yet.");
+            Console.WriteLine("Not Connected yet. " + exception);
         }
     }
 
     public void Dispose()
     {
-        newStream.Close();
-        BinaryReader.Close();
-        BinaryWriter.Close();
+        if (newStream != null)
+        {
+            newStream.Close();
+        }
+        if (BinaryReader != null)
+        {
+            BinaryReader.Close();
+        }
+
+        if (BinaryWriter != null)
+        {
+            BinaryWriter.Close();
+        }
+       
     }
 }

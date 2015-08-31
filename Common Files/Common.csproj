@@ -47,7 +47,6 @@
     <Compile Include="Common.cs" />
     <Compile Include="Comunicator.cs" />
     <Compile Include="IActionClass.cs" />
-    <Compile Include="LogManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

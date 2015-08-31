@@ -12,13 +12,13 @@ namespace TestSieci.Model
 {
     sealed class TCPServer : Connector
     {
-        TcpListener _listener { get; set; }
+        public TcpListener _listener { get; set; }
 
         bool _AsyncPending;
 
         public TCPServer(string iP, int port) : base(iP, port) { }
 
-        public bool IsActive() { return (client != null); }
+        public bool IsActive() { return (Client != null); }
 
         public void StartServer()
         {
@@ -49,8 +49,8 @@ namespace TestSieci.Model
             bool _Pending = _AsyncPending;
             if (_Pending)
             {
-                client = _listener.AcceptTcpClient();// Remember only last connection TODO: Make multiconnection posibility.
-                _comunicator = new Comunicator(client.GetStream());
+                Client = _listener.AcceptTcpClient();// Remember only last connection TODO: Make multiconnection posibility.
+                _comunicator = new Comunicator(Client.GetStream());
                 _AsyncPending = false;
             }
         }
@@ -62,8 +62,8 @@ namespace TestSieci.Model
         {
             if (_listener != null && _listener.Pending())
             {
-                client = _listener.AcceptTcpClient();// Remember only last connection TODO: Make multiconnection posibility.
-                _comunicator = new Comunicator(client.GetStream());
+                Client = _listener.AcceptTcpClient();// Remember only last connection TODO: Make multiconnection posibility.
+                _comunicator = new Comunicator(Client.GetStream());
             }
         }
 

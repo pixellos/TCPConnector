@@ -10,8 +10,9 @@ namespace Common
     public class Commands
     {
         const char StartCommandChar = ':';
-        static Dictionary<string, Func<string,string>> CommandBind = new Dictionary<string, Func<string,string>>();
-        const string COMMANDFAILED = "##NAZWA???###";
+        static Dictionary<string, Func<string,string>> _CommandBind = new Dictionary<string, Func<string,string>>();
+        const string COMMANDFAILED = "##COMMAND???###";
+        string _LastMessage;
 
         public Commands()
         {
@@ -22,14 +23,18 @@ namespace Common
         {
             if (input != String.Empty && input.ToCharArray()[0] == ':')
             {
-                if (CommandBind.ContainsKey(input))
+                if (_CommandBind.ContainsKey(input))
                 {
-                    Func<string,string> doit = CommandBind.Single(x => x.Key == input).Value;
+                    Func<string, string> doit = _CommandBind.Single(x => x.Key == input).Value;
                     return doit(input);
                 }
                 return COMMANDFAILED;
             }
-            else return input;
+            else
+            {
+                _LastMessage = input;
+                return input;
+            }
         }
 
         /// <summary>
@@ -37,9 +42,9 @@ namespace Common
         /// </summary>
         public virtual void AddToDict()
         {
-            Commands.CommandBind.Add(":ES", EmptyString);
-            Commands.CommandBind.Add(":AYT?", EmptyString);
-            Commands.CommandBind.Add(":MBShow", MessangeBoxShow);
+            Commands._CommandBind.Add(":ES", EmptyString);
+           // Commands.CommandBind.Add(":AYT?", ReturnLastText);
+            Commands._CommandBind.Add(":MBShow", MessangeBoxShow);
         }
 
         string EmptyString(string text) { return ""; }
@@ -48,5 +53,6 @@ namespace Common
             MessageBox.Show("Rozpoznano komendę :MBShow, wyświetliłem się :D");
             return "";
         }
+        string ReturnLastText(string text) { return _LastMessage; }
     }
 }

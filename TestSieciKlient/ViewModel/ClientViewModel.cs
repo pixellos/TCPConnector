@@ -57,6 +57,18 @@ namespace TestSieciKlient.ViewModel
             }
         }
 
+        private string _Logs;
+
+        public string Logs
+        {
+            get { return _Logs; }
+            set
+            {
+                _Logs = value;
+                RaisePropertyChanged("Logs");
+            }
+        }
+
         string _IP = "127.0.0.1";
         public string IP
         {
@@ -93,6 +105,7 @@ namespace TestSieciKlient.ViewModel
             _CommandControler = new Commands();
             _backgroundHelper = new BackgroundConnectionHelper(new DoWorkEventHandler(OnCallBack), new RunWorkerCompletedEventHandler(UpdateGUI));
             _ConnectClick = new CommandAction(StartClientClick);
+            
         }
 
         private void RaisePropertyChanged(string propertyName)
@@ -122,7 +135,7 @@ namespace TestSieciKlient.ViewModel
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
             Connection = _asyncConnection;            
-            if (_asyncRecivedText != null)
+            if (_asyncRecivedText != null && _asyncRecivedText != ":AYT?")
             {
                 RecivedText = _CommandControler.Decode(_asyncRecivedText);
             }

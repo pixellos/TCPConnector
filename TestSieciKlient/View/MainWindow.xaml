@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSieciKlient"
         xmlns:vs="clr-namespace:TestSieciKlient.ViewModel"
+       
         mc:Ignorable="d"
-        Title="Client MVVM v0.5" Height="170" Width="621" Foreground="#FF2AF0F9" SizeToContent="Manual" ResizeMode="NoResize" ShowInTaskbar="True">
+        Title="Client MVVM v0.5" Height="170" Width="441" Foreground="#FF2AF0F9" SizeToContent="Manual" ResizeMode="NoResize" ShowInTaskbar="True" >
     <Window.DataContext>
         <vs:ClientViewModel/>
     </Window.DataContext>
+
+    
     <Grid Margin="0,0,0,7" HorizontalAlignment="Left" Width="431">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -34,6 +37,5 @@
         <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="274,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding Port}"/>
         <Label x:Name="label2" Content="Port:" HorizontalAlignment="Left" Margin="229,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1,0.115" Height="27" Width="34"/>
         <TextBox x:Name="textBox2" Margin="15,92,15,0" TextWrapping="Wrap" Text="{Binding TextToSend, UpdateSourceTrigger=PropertyChanged}" Height="32" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="431,10,-177,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="177" Height="114"/>
     </Grid>
 </Window>

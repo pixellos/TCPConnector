@@ -15,5 +15,15 @@ namespace TestSieciKlient
         private void button_Click(object sender, RoutedEventArgs e) {}
 
         private void textToSend_TextChanged(object sender, TextChangedEventArgs e) {}
+
+        private void Window_Closed(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void textBlock_ContextMenuClosing(object sender, ContextMenuEventArgs e)
+        {
+
+        }
     }
 }

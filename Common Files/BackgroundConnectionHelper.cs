@@ -26,7 +26,6 @@ namespace Common
             backgroundWorker.DoWork += AsyncDelegate;
             backgroundWorker.RunWorkerCompleted += GUIDelegate;
             backgroundWorker.ProgressChanged += ProgressChanged;
-
         }
 
         public BackgroundConnectionHelper(DoWorkEventHandler AsyncDelegate, RunWorkerCompletedEventHandler GUIDelegate)
@@ -47,8 +46,6 @@ namespace Common
             {
                 backgroundWorker.RunWorkerAsync();
             }
-
-
         }
 
         public void Stop() { backgroundWorker.CancelAsync(); }

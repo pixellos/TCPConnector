@@ -15,22 +15,29 @@ namespace Common
 {
     public abstract partial class Connector  : IDisposable
     {
-        public TcpClient client { get; protected set; }
+        public TcpClient Client { get; protected set; }
         protected string _Ip;
         protected int _Port;
         protected Comunicator _comunicator { get; set; }
-
+       
         public Connector(string ip, int port)
         {
             this._Ip = ip;
             this._Port = port;
-            client = new TcpClient();
-            
+            Client = new TcpClient();
         }
 
         public string ReadText()
         {
-            return _comunicator.ReadText();
+            try
+            {
+            	return _comunicator.ReadText();
+            }
+            catch (System.Exception exception)
+            {
+                MessageBox.Show("Dont have connection" + exception.Message);
+                return "##NOT CONNECTED##";
+            }
         }
 
         public void SendText(string text)
@@ -44,21 +51,21 @@ namespace Common
 
                     _comunicator.SendText(text);
                 }
-                catch (IOException)
+                catch (IOException ioException)
                 {
-                    MessageBox.Show("Connection was incidentaly closed", "Oops");
+                    MessageBox.Show("Connection was incidentaly closed" + ioException.Message, "Oops");
                 }
             }
         }
 
         public bool IsConnected()
         {
-            if (client == null || _comunicator == null)
+            if (Client == null || _comunicator == null )
                 return false;
             else
             {
                 //_comunicator.SendText(":AYT?");///Send command :AreYouThere, beacuse connected have Conection status equals connection stauts  during last IO Operation https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.connected.aspx
-                return client.Connected;
+                return Client.Connected;
             }
         }
 
@@ -66,8 +73,8 @@ namespace Common
         {
             try
             {
-                client = new TcpClient(_Ip, _Port);
-                _comunicator = new Comunicator(client.GetStream());
+                Client = new TcpClient(_Ip, _Port);
+                _comunicator = new Comunicator(Client.GetStream());
             }
             catch (Exception ex)
             {
@@ -81,7 +88,7 @@ namespace Common
         {
             if (_comunicator != null)
                 _comunicator.Dispose();
-            client.Close();
+            Client.Close();
         }
     }
 }

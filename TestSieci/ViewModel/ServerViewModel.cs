@@ -50,7 +50,6 @@ namespace TestSieci.ViewModel
             get { return _textToSend; }
             set
             {
-                RaisePropertyChanged("IsConnectedProperty");
                 _textToSend = value;
                 _TCPServer.SendText(_textToSend);
                 RaisePropertyChanged("TextToSend");
@@ -96,13 +95,18 @@ namespace TestSieci.ViewModel
         #region BackgroundHelper  methods
         private void AsyncOperations(object sender, DoWorkEventArgs e)
         {
-            _asyncRecivedText = _TCPServer.ReadText();
+            if (_TCPServer.IsConnected())
+            {
+                RaisePropertyChanged("IsConnectedProperty");
+                _asyncRecivedText = _TCPServer.ReadText();
+            }
+            _TCPServer.AsyncWaitForClient();
         }
 
         private void UpdateGUI(object sender, RunWorkerCompletedEventArgs e)
         {
-            _TCPServer.AsyncWaitForClient();
-            if (_asyncRecivedText != null)
+            _TCPServer.UIThreadSetClientIfPending();
+            if (_asyncRecivedText != null && _asyncRecivedText !=":AYT?" )
             {
                 RecivedText = _Commands.Decode(_asyncRecivedText);
                 RaisePropertyChanged("RecivedText");
@@ -116,7 +120,6 @@ namespace TestSieci.ViewModel
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 
-            _TCPServer.UIThreadSetClientIfPending();
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
@@ -127,6 +130,7 @@ namespace TestSieci.ViewModel
         {
             if (_TCPServer != null)
             {
+                _TCPServer.Dispose();
                 _TCPServer = new TCPServer(_Ip, _Port);
                 _TCPServer.StartServer();
                 _BackgroundHelper.Start();
