@@ -28,13 +28,9 @@ public class Comunicator : IDisposable
         }
     }
 
-    public bool IsStreamDescribed()
+    public bool IsStreamDescribed
     {
-        if (newStream == null)
-        {
-            return false;
-        }
-        else return true;
+        get { return newStream != null; }
     }
 
     public string ReadText()
@@ -73,19 +69,12 @@ public class Comunicator : IDisposable
 
     public void Dispose()
     {
-        if (newStream != null)
+        if (IsStreamDescribed)
         {
             newStream.Close();
-        }
-        if (BinaryReader != null)
-        {
             BinaryReader.Close();
-        }
-
-        if (BinaryWriter != null)
-        {
             BinaryWriter.Close();
         }
-       
+        
     }
 }
